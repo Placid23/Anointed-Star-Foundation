@@ -11,7 +11,7 @@ type ProgramCardProps = {
 
 export default function ProgramCard({ program }: ProgramCardProps) {
   return (
-    <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 hover:border-primary">
       <CardHeader className="p-0">
         <Image
           src={program.imageUrl}

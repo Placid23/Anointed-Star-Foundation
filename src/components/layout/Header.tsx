@@ -15,28 +15,38 @@ const navItems = [
   { href: '/map', label: 'Areas of Operation' },
   { href: '/proposal-generator', label: 'Proposal AI' },
   { href: '/news', label: 'News & Blog' },
-  { href: '/donate', label: 'Donate' },
+  // Donate item will be handled separately
 ];
+
+const donateNavItem = { href: '/donate', label: 'Donate' };
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Filter out the donate link if it's accidentally in navItems
+  const mainNavItems = navItems.filter(item => item.href !== donateNavItem.href);
+
   return (
-    <header className="bg-background/80 backdrop-blur-md shadow-md sticky top-0 z-50">
+    <header className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary hover:text-primary/80 transition-colors">
-            <Sparkles className="h-8 w-8" />
+            <Sparkles className="h-7 w-7" /> {/* Slightly smaller logo icon */}
             <span>Anointed Star Hub</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-1 lg:space-x-2">
-            {navItems.map((item) => (
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            {mainNavItems.map((item) => (
               <NavLink key={item.href} href={item.href}>
                 {item.label}
               </NavLink>
             ))}
+            {donateNavItem && (
+              <Button asChild size="sm" className="ml-3 bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Link href={donateNavItem.href}>{donateNavItem.label}</Link>
+              </Button>
+            )}
           </nav>
           
           {/* Mobile Menu Button */}
@@ -55,18 +65,23 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border">
-          <nav className="flex flex-col space-y-1 px-2 py-3">
-            {navItems.map((item) => (
+        <div className="md:hidden border-t border-border bg-background/95 absolute w-full shadow-lg">
+          <nav className="flex flex-col space-y-1 px-4 py-4">
+            {mainNavItems.map((item) => (
               <NavLink
                 key={item.href}
                 href={item.href}
-                className="block"
+                className="block py-2.5 text-base" // Slightly larger tap area and text
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
               </NavLink>
             ))}
+            {donateNavItem && (
+              <Button asChild size="default" className="w-full mt-3 py-2.5 bg-accent hover:bg-accent/90 text-accent-foreground text-base">
+                <Link href={donateNavItem.href} onClick={() => setMobileMenuOpen(false)}>{donateNavItem.label}</Link>
+              </Button>
+            )}
           </nav>
         </div>
       )}
