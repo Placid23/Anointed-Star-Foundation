@@ -1,7 +1,7 @@
 
 "use client";
 import Link from 'next/link';
-import Image from 'next/image'; // Added Image import
+import Image from 'next/image';
 import { Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, TrendingUp, Users2Icon, HandHeart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -59,14 +59,14 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
+            {/* IMPORTANT: Update width and height to your logo's actual dimensions */}
             <Image
-              src="https://placehold.co/120x30.png" // Placeholder logo image
+              src="/anointed-star-hub-logo.png" 
               alt="Anointed Star Hub Logo"
-              width={120}
-              height={30}
-              className="h-8 w-auto object-contain group-hover:animate-quick-twinkle" // Adjust height as needed, maintain aspect ratio
-              data-ai-hint="foundation logo"
-              priority // Preload logo if it's LCP
+              width={120} // Update this to your logo's actual width
+              height={30}  // Update this to your logo's actual height
+              className="h-8 w-auto object-contain group-hover:animate-quick-twinkle" 
+              priority 
             />
             <span className="hidden sm:inline">Anointed Star Hub</span>
           </Link>
