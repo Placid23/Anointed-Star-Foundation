@@ -5,6 +5,9 @@ import type { ReactNode } from 'react';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabaseClient'; // Import Supabase client
+import type { Session, User as SupabaseUser } from '@supabase/supabase-js';
+
 
 type UserRole = 'sponsor' | 'supporter' | 'admin';
 
@@ -33,96 +36,106 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Simulate checking for an existing session
-    // In a real app, you'd call Supabase here to get the current user
-    const checkUser = async () => {
-      // const { data: { session } } = await supabase.auth.getSession();
-      // if (session?.user) {
-      //   setUser({ id: session.user.id, email: session.user.email!, fullName: session.user.user_metadata?.fullName || 'User', role: session.user.user_metadata?.role || 'supporter' });
-      // }
+    setLoading(true);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email!,
+          fullName: session.user.user_metadata?.fullName || session.user.email?.split('@')[0] || 'User',
+          role: (session.user.user_metadata?.role as UserRole) || 'supporter',
+        });
+      } else {
+        setUser(null);
+      }
       setLoading(false);
+    });
+
+    // Check initial session explicitly as onAuthStateChange might not fire immediately for an existing session on page load.
+    async function getInitialSession() {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+            setUser({
+                id: session.user.id,
+                email: session.user.email!,
+                fullName: session.user.user_metadata?.fullName || session.user.email?.split('@')[0] || 'User',
+                role: (session.user.user_metadata?.role as UserRole) || 'supporter',
+            });
+        }
+        setLoading(false);
+    }
+    getInitialSession();
+
+
+    return () => {
+      subscription?.unsubscribe();
     };
-    checkUser();
   }, []);
 
   const login = async (email: string, pass: string) => {
     setLoading(true);
-    // Placeholder for Supabase login
-    // const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
 
-    // Mock success
-    const mockUser: User = { id: 'mock-user-id', email, fullName: 'Mock User', role: 'supporter' };
-    setUser(mockUser);
-    toast({ title: 'Login Successful', description: `Welcome back, ${mockUser.fullName}!` });
-    router.push('/dashboard');
+    if (error) {
+      toast({ title: 'Login Failed', description: error.message, variant: 'destructive' });
+    } else if (data.user) {
+      // onAuthStateChange will handle setting the user.
+      toast({ title: 'Login Successful', description: `Welcome back, ${data.user.user_metadata?.fullName || data.user.email}!` });
+      router.push('/dashboard');
+    }
     setLoading(false);
-    // if (error) {
-    //   toast({ title: 'Login Failed', description: error.message, variant: 'destructive' });
-    //   setLoading(false);
-    //   return;
-    // }
-    // if (data.user) {
-    //   setUser({ id: data.user.id, email: data.user.email!, fullName: data.user.user_metadata?.fullName || 'User', role: data.user.user_metadata?.role || 'supporter' });
-    //   router.push('/dashboard');
-    //   toast({ title: 'Login Successful', description: 'Welcome back!' });
-    // }
-    // setLoading(false);
   };
 
   const signup = async (fullName: string, email: string, pass: string, role: UserRole) => {
     setLoading(true);
-    // Placeholder for Supabase signup
-    // const { data, error } = await supabase.auth.signUp({
-    //   email,
-    //   password,
-    //   options: { data: { fullName, role } },
-    // });
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: pass,
+      options: {
+        data: { fullName, role }, // Store fullName and role in user_metadata
+      },
+    });
 
-    // Mock success - in real Supabase, user would need to confirm email
-    toast({ title: 'Signup Almost Complete!', description: 'A confirmation email has been (mock) sent. Please check your inbox.' });
-    // setUser({ id: 'new-mock-id', email, fullName, role }); // Don't auto-login, wait for "confirmation"
-    // router.push('/auth/login'); // Or a page telling them to check email
+    if (error) {
+      toast({ title: 'Signup Failed', description: error.message, variant: 'destructive' });
+    } else if (data.user) {
+      if (data.session) { // User is immediately signed in (e.g. auto-confirm is on)
+        toast({ title: 'Signup Successful!', description: 'Welcome! Your account has been created and you are now logged in.' });
+        router.push('/dashboard'); // onAuthStateChange will set the user
+      } else { // Email confirmation needed
+        toast({ title: 'Signup Almost Complete!', description: 'A confirmation email has been sent. Please check your inbox to activate your account.' });
+         router.push('/auth/login'); // Redirect to login, they can login after confirming
+      }
+    }
     setLoading(false);
-
-    // if (error) {
-    //   toast({ title: 'Signup Failed', description: error.message, variant: 'destructive' });
-    //   setLoading(false);
-    //   return;
-    // }
-    // toast({ title: 'Signup Successful', description: 'Please check your email to confirm your account.' });
-    // setLoading(false);
   };
 
   const logout = async () => {
     setLoading(true);
-    // Placeholder for Supabase logout
-    // const { error } = await supabase.auth.signOut();
-    await new Promise(resolve => setTimeout(resolve, 500));
-    setUser(null);
-    router.push('/auth/login');
-    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      toast({ title: 'Logout Failed', description: error.message, variant: 'destructive' });
+    } else {
+      // setUser(null) will be handled by onAuthStateChange
+      router.push('/auth/login');
+      toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+    }
     setLoading(false);
-    // if (error) {
-    //   toast({ title: 'Logout Failed', description: error.message, variant: 'destructive' });
-    // }
-    // setLoading(false);
   };
 
   const resetPassword = async (email: string) => {
     setLoading(true);
-    // Placeholder for Supabase password reset
-    // const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    //   redirectTo: `${window.location.origin}/auth/update-password`, // Example redirect
-    // });
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast({ title: 'Password Reset', description: 'If an account exists for this email, a password reset link has been (mock) sent.' });
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      // redirectTo: `${window.location.origin}/auth/update-password`, // Optional: if you have a custom update password page
+    });
+
+    if (error) {
+      toast({ title: 'Password Reset Failed', description: error.message, variant: 'destructive' });
+    } else {
+      toast({ title: 'Password Reset Email Sent', description: 'If an account exists for this email, a password reset link has been sent.' });
+    }
     setLoading(false);
-    // if (error) {
-    //   toast({ title: 'Password Reset Failed', description: error.message, variant: 'destructive' });
-    // }
-    // setLoading(false);
   };
 
   return (
