@@ -11,6 +11,7 @@ const navItems = [
   { href: '/about', label: 'About Us' },
   { href: '/programs', label: 'Programs' },
   { href: '/impact', label: 'Our Impact' },
+  { href: '/media', label: 'Media' },
   { href: '/map', label: 'Areas of Operation' },
   { href: '/proposal-generator', label: 'Proposal AI' },
   { href: '/news', label: 'News & Blog' },
