@@ -84,26 +84,60 @@ export default {
   					height: '0'
   				}
   			},
-        'quick-twinkle': {
+        'quick-twinkle': { // Continuous for logo
           '0%, 48%, 53%, 100%': { opacity: '1', transform: 'scale(1)' },
           '50%': { opacity: '0.85', transform: 'scale(0.98)' },
           '51.5%': { opacity: '1', transform: 'scale(1.03)' },
         },
-        'pulse-glow': {
-          '0%, 100%': { filter: 'drop-shadow(0 0 2px hsl(var(--primary))) drop-shadow(0 0 5px hsl(var(--primary) / 0.5))', opacity: '0.85' },
-          '50%': { filter: 'drop-shadow(0 0 5px hsl(var(--primary) / 1)) drop-shadow(0 0 12px hsl(var(--primary) / 0.7))', opacity: '1' }
+        'icon-bounce': { // For Home, MapPin on hover
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '50%': { transform: 'translateY(-4px) scale(1.1)' },
         },
-        'pulse-map-pin': {
-          '0%, 100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
-          '50%': { transform: 'scale(1.1) translateY(-1px)', opacity: '0.75' }
+        'icon-shake': { // For Info, Newspaper, FileText on hover
+          '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+          '25%': { transform: 'translateX(-1.5px) rotate(-3deg) scale(1.05)' },
+          '75%': { transform: 'translateX(1.5px) rotate(3deg) scale(1.05)' },
+        },
+        'icon-float': { // For LifeBuoy on hover (continuous while hovered)
+          '0%, 100%': { transform: 'translateY(0px) scale(1)' },
+          '50%': { transform: 'translateY(-3px) scale(1.05)' },
+        },
+        'icon-pulse-subtle': { // For TrendingUp, LayoutDashboard on hover
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+          '50%': { transform: 'scale(1.2)', opacity: '1' },
+        },
+        'icon-point-right': { // For LogIn, UserPlus on hover
+          '0%, 100%': { transform: 'translateX(0) scale(1)' },
+          '50%': { transform: 'translateX(3px) scale(1.1)' },
+        },
+        'icon-point-left': { // For LogOut on hover
+          '0%, 100%': { transform: 'translateX(0) scale(1)' },
+          '50%': { transform: 'translateX(-3px) scale(1.1)' },
+        },
+        'icon-handheart-beat': { // For HandHeart on hover
+          '0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+          '20%': { transform: 'scale(1.15) rotate(-5deg)' },
+          '40%': { transform: 'scale(1.05) rotate(3deg)' },
+          '60%': { transform: 'scale(1.2) rotate(-3deg)' },
+          '80%': { transform: 'scale(1.1) rotate(2deg)' },
+        },
+        'lightbulb-glow-hover': { // For Lightbulb on hover
+            '0%, 100%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.6))', opacity: '0.7' },
+            '50%': { filter: 'drop-shadow(0 0 4px hsl(var(--primary))) drop-shadow(0 0 8px hsl(var(--primary) / 0.5))', opacity: '1' }
         }
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-        'quick-twinkle': 'quick-twinkle 4s infinite ease-in-out',
-        'pulse-glow': 'pulse-glow 2.5s infinite ease-in-out',
-        'pulse-map-pin': 'pulse-map-pin 2s infinite ease-in-out',
+        'quick-twinkle': 'quick-twinkle 4s infinite ease-in-out', // Continuous for logo
+        'icon-bounce': 'icon-bounce 0.4s ease-in-out',
+        'icon-shake': 'icon-shake 0.4s ease-in-out',
+        'icon-float': 'icon-float 0.7s ease-in-out infinite alternate', // Continuous while parent hovered
+        'icon-pulse-subtle': 'icon-pulse-subtle 0.4s ease-in-out',
+        'icon-point-right': 'icon-point-right 0.3s ease-out',
+        'icon-point-left': 'icon-point-left 0.3s ease-out',
+        'icon-handheart-beat': 'icon-handheart-beat 0.6s ease-in-out',
+        'lightbulb-glow-hover': 'lightbulb-glow-hover 0.8s ease-in-out forwards', // `forwards` keeps the end state
   		}
   	}
   },

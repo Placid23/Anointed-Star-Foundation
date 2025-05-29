@@ -18,22 +18,22 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const coreNavItems = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/about', label: 'About Us', icon: Info },
-  { href: '/programs', label: 'Programs', icon: LifeBuoy },
-  { href: '/impact', label: 'Our Impact', icon: TrendingUp },
-  { href: '/news', label: 'News & Blog', icon: Newspaper },
+  { href: '/', label: 'Home', icon: Home, hoverAnimation: 'group-hover:animate-icon-bounce' },
+  { href: '/about', label: 'About Us', icon: Info, hoverAnimation: 'group-hover:animate-icon-shake' },
+  { href: '/programs', label: 'Programs', icon: LifeBuoy, hoverAnimation: 'group-hover:animate-icon-float' },
+  { href: '/impact', label: 'Our Impact', icon: TrendingUp, hoverAnimation: 'group-hover:animate-icon-pulse-subtle' },
+  { href: '/news', label: 'News & Blog', icon: Newspaper, hoverAnimation: 'group-hover:animate-icon-shake' },
 ];
 
 const moreNavItems = [
-  { href: '/media', label: 'Media', icon: FileText },
-  { href: '/map', label: 'Areas of Operation', icon: Map },
-  { href: '/proposal-generator', label: 'Proposal AI', icon: Lightbulb },
+  { href: '/media', label: 'Media', icon: FileText, hoverAnimation: 'group-hover:animate-icon-shake' },
+  { href: '/map', label: 'Areas of Operation', icon: Map, hoverAnimation: 'group-hover:animate-icon-bounce' },
+  { href: '/proposal-generator', label: 'Proposal AI', icon: Lightbulb, hoverAnimation: 'group-hover:animate-lightbulb-glow-hover' },
 ];
 
 const allNavItems = [...coreNavItems, ...moreNavItems];
 
-const donateNavItem = { href: '/donate', label: 'Donate', icon: HandHeart };
+const donateNavItem = { href: '/donate', label: 'Donate', icon: HandHeart, hoverAnimation: 'group-hover:animate-icon-handheart-beat' };
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,6 +43,15 @@ export default function Header() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  const renderIcon = (IconComponent: React.ElementType, animationClass?: string, baseClass?: string) => {
+    return <IconComponent className={cn("h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity duration-200 ease-in-out group-hover:text-primary", baseClass, animationClass)} />;
+  }
+  
+  const renderMobileIcon = (IconComponent: React.ElementType, animationClass?: string, baseClass?: string) => {
+    return <IconComponent className={cn("h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary", baseClass, animationClass)} />;
+  }
+
 
   return (
     <header className="bg-background/90 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-sm">
@@ -57,7 +66,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
             {coreNavItems.map((item) => (
               <NavLink key={item.href} href={item.href} className="group">
-                <item.icon className="h-4 w-4 mr-1.5 opacity-70 group-hover:opacity-100 transition-opacity duration-200 ease-in-out group-hover:text-primary" />
+                {renderIcon(item.icon, item.hoverAnimation, "mr-1.5")}
                 {item.label}
               </NavLink>
             ))}
@@ -73,11 +82,7 @@ export default function Header() {
                   {moreNavItems.map((item) => (
                     <DropdownMenuItem key={item.href} asChild>
                       <Link href={item.href} className="flex items-center gap-2 group">
-                        <item.icon className={cn(
-                          "h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary",
-                          item.label === 'Proposal AI' && 'animate-pulse-glow',
-                          item.label === 'Areas of Operation' && 'animate-pulse-map-pin'
-                        )} />
+                        {renderIcon(item.icon, item.hoverAnimation)}
                         {item.label}
                       </Link>
                     </DropdownMenuItem>
@@ -92,8 +97,8 @@ export default function Header() {
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full transition-transform duration-200 ease-in-out hover:scale-125 group">
-                      <UserCircle className="h-6 w-6 text-foreground/70 group-hover:text-primary" />
+                    <Button variant="ghost" size="icon" className="rounded-full transition-transform duration-200 ease-in-out group hover:scale-110">
+                      <UserCircle className="h-6 w-6 text-foreground/70 group-hover:text-primary group-hover:scale-110 transition-transform" />
                       <span className="sr-only">User menu</span>
                     </Button>
                   </DropdownMenuTrigger>
@@ -111,23 +116,23 @@ export default function Header() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                            <Link href="/dashboard" className="flex items-center gap-2 group">
-                            <LayoutDashboard className="h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary" /> Dashboard
+                            {renderIcon(LayoutDashboard, 'group-hover:animate-icon-pulse-subtle')} Dashboard
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={logout} className="flex items-center gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive group">
-                          <LogOut className="h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-focus:text-destructive" /> Logout
+                          {renderIcon(LogOut, 'group-hover:animate-icon-point-left', 'group-focus:text-destructive')} Logout
                         </DropdownMenuItem>
                       </>
                     ) : (
                       <>
                         <DropdownMenuItem asChild>
                           <Link href="/auth/login" className="flex items-center gap-2 group">
-                            <LogIn className="h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary" /> Login
+                            {renderIcon(LogIn, 'group-hover:animate-icon-point-right')} Login
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href="/auth/signup" className="flex items-center gap-2 group">
-                            <UserPlus className="h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary" /> Sign Up
+                             {renderIcon(UserPlus, 'group-hover:animate-icon-point-right')} Sign Up
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -139,7 +144,7 @@ export default function Header() {
               {donateNavItem && (
                 <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground group">
                   <Link href={donateNavItem.href} className="flex items-center gap-1.5">
-                    <donateNavItem.icon className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:scale-110 group-hover:rotate-[-10deg]"/> {donateNavItem.label}
+                    <donateNavItem.icon className={cn("h-4 w-4 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)}/> {donateNavItem.label}
                   </Link>
                 </Button>
               )}
@@ -172,11 +177,8 @@ export default function Header() {
                 className="block py-2.5 text-base flex items-center gap-3 group"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <item.icon className={cn(
-                    "h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary",
-                    item.label === 'Proposal AI' && 'animate-pulse-glow',
-                    item.label === 'Areas of Operation' && 'animate-pulse-map-pin'
-                  )} /> {item.label}
+                {renderMobileIcon(item.icon, item.hoverAnimation)}
+                {item.label}
               </NavLink>
             ))}
             <hr className="my-2 border-border"/>
@@ -188,19 +190,19 @@ export default function Header() {
             ) : user ? (
               <>
                 <NavLink href="/dashboard" className="block py-2.5 text-base flex items-center gap-3 group" onClick={() => setMobileMenuOpen(false)}>
-                  <LayoutDashboard className="h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary" /> Dashboard
+                   {renderMobileIcon(LayoutDashboard, 'group-hover:animate-icon-pulse-subtle')} Dashboard
                 </NavLink>
                 <Button onClick={() => { logout(); setMobileMenuOpen(false); }} variant="ghost" className="w-full justify-start mt-1 py-2.5 text-base flex items-center gap-3 text-destructive hover:text-destructive group">
-                  <LogOut className="h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-focus:text-destructive" /> Logout
+                  {renderMobileIcon(LogOut, 'group-hover:animate-icon-point-left', 'group-focus:text-destructive')} Logout
                 </Button>
               </>
             ) : (
               <>
                 <NavLink href="/auth/login" className="block py-2.5 text-base flex items-center gap-3 group" onClick={() => setMobileMenuOpen(false)}>
-                  <LogIn className="h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary" /> Login
+                  {renderMobileIcon(LogIn, 'group-hover:animate-icon-point-right')} Login
                 </NavLink>
                 <NavLink href="/auth/signup" className="block py-2.5 text-base flex items-center gap-3 group" onClick={() => setMobileMenuOpen(false)}>
-                  <UserPlus className="h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary" /> Sign Up
+                  {renderMobileIcon(UserPlus, 'group-hover:animate-icon-point-right')} Sign Up
                 </NavLink>
               </>
             )}
@@ -208,7 +210,7 @@ export default function Header() {
             {donateNavItem && (
               <Button asChild size="lg" className="w-full mt-2 bg-accent hover:bg-accent/90 text-accent-foreground group">
                 <Link href={donateNavItem.href} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                  <donateNavItem.icon className="h-5 w-5 transition-transform duration-200 ease-in-out group-hover:scale-110 group-hover:rotate-[-10deg]"/> {donateNavItem.label}
+                  <donateNavItem.icon className={cn("h-5 w-5 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)} /> {donateNavItem.label}
                 </Link>
               </Button>
             )}
