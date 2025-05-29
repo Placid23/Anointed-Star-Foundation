@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const coreNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -48,7 +49,7 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
-            <Sparkles className="h-6 w-6 transition-transform duration-300 ease-in-out group-hover:rotate-[15deg] group-hover:scale-110" />
+            <Sparkles className="h-6 w-6 transition-transform duration-300 ease-in-out group-hover:rotate-[15deg] group-hover:scale-110 animate-quick-twinkle" />
             <span className="hidden sm:inline">Anointed Star Hub</span>
           </Link>
 
@@ -72,7 +73,11 @@ export default function Header() {
                   {moreNavItems.map((item) => (
                     <DropdownMenuItem key={item.href} asChild>
                       <Link href={item.href} className="flex items-center gap-2 group">
-                        <item.icon className="h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary" />
+                        <item.icon className={cn(
+                          "h-4 w-4 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-0.5 group-hover:text-primary",
+                          item.label === 'Proposal AI' && 'animate-pulse-glow',
+                          item.label === 'Areas of Operation' && 'animate-pulse-map-pin'
+                        )} />
                         {item.label}
                       </Link>
                     </DropdownMenuItem>
@@ -167,7 +172,11 @@ export default function Header() {
                 className="block py-2.5 text-base flex items-center gap-3 group"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <item.icon className="h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary" /> {item.label}
+                <item.icon className={cn(
+                    "h-5 w-5 text-muted-foreground transition-all duration-150 ease-in-out group-hover:translate-x-1 group-hover:text-primary",
+                    item.label === 'Proposal AI' && 'animate-pulse-glow',
+                    item.label === 'Areas of Operation' && 'animate-pulse-map-pin'
+                  )} /> {item.label}
               </NavLink>
             ))}
             <hr className="my-2 border-border"/>

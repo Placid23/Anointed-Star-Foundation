@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -82,11 +83,27 @@ export default {
   				to: {
   					height: '0'
   				}
-  			}
+  			},
+        'quick-twinkle': {
+          '0%, 48%, 53%, 100%': { opacity: '1', transform: 'scale(1)' },
+          '50%': { opacity: '0.85', transform: 'scale(0.98)' },
+          '51.5%': { opacity: '1', transform: 'scale(1.03)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { filter: 'drop-shadow(0 0 2px hsl(var(--primary))) drop-shadow(0 0 5px hsl(var(--primary) / 0.5))', opacity: '0.85' },
+          '50%': { filter: 'drop-shadow(0 0 5px hsl(var(--primary) / 1)) drop-shadow(0 0 12px hsl(var(--primary) / 0.7))', opacity: '1' }
+        },
+        'pulse-map-pin': {
+          '0%, 100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
+          '50%': { transform: 'scale(1.1) translateY(-1px)', opacity: '0.75' }
+        }
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+        'quick-twinkle': 'quick-twinkle 4s infinite ease-in-out',
+        'pulse-glow': 'pulse-glow 2.5s infinite ease-in-out',
+        'pulse-map-pin': 'pulse-map-pin 2s infinite ease-in-out',
   		}
   	}
   },
