@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -20,7 +21,7 @@ export default function NavLink({ href, children, className, onClick, ...props }
     <Link
       href={href}
       className={cn(
-        'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+        'px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center', // Added flex items-center
         isActive
           ? 'bg-primary/20 text-primary hover:bg-primary/30'
           : 'text-foreground/70 hover:text-foreground hover:bg-muted',
