@@ -50,8 +50,14 @@ export default function HomePage() {
       <SectionWrapper className="bg-secondary/50">
         <PageTitle title="Our Key Programs" subtitle="Making a tangible difference where it's needed most." />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredPrograms.map((program) => (
-            <ProgramCard key={program.id} program={program} />
+          {featuredPrograms.map((program, index) => (
+            <div
+              key={program.id}
+              className="animate-float-in opacity-0" // Start with opacity-0 for the animation
+              style={{ animationDelay: `${index * 0.15}s` }}
+            >
+              <ProgramCard program={program} />
+            </div>
           ))}
         </div>
         {programsData.length > 3 && (

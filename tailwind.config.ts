@@ -122,8 +122,9 @@ export default {
           '80%': { transform: 'scale(1.1) rotate(2deg)' },
         },
         'lightbulb-glow-hover': {
-            '0%, 100%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.6))', opacity: '0.7' },
-            '50%': { filter: 'drop-shadow(0 0 4px hsl(var(--primary))) drop-shadow(0 0 8px hsl(var(--primary) / 0.5))', opacity: '1' }
+            '0%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' }, /* Start with no glow or less opacity */
+            '50%': { filter: 'drop-shadow(0 0 6px hsl(var(--primary)/0.7)) drop-shadow(0 0 12px hsl(var(--primary) / 0.4))', opacity: '1' },
+            '100%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' }, /* Return to subtle state */
         },
         'preloader-icon-pulse': {
           '0%, 100%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 6px hsl(var(--primary)/0.4))' },
@@ -167,6 +168,10 @@ export default {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.15) translateY(-2px)' },
         },
+        'float-in': {
+          '0%': { opacity: '0', transform: 'translateY(30px) scale(0.95)' },
+          '100%': { opacity: '1', transform: 'translateY(0px) scale(1)' },
+        },
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
@@ -179,7 +184,7 @@ export default {
         'icon-point-right': 'icon-point-right 0.3s ease-out',
         'icon-point-left': 'icon-point-left 0.3s ease-out',
         'icon-handheart-beat': 'icon-handheart-beat 0.6s ease-in-out',
-        'lightbulb-glow-hover': 'lightbulb-glow-hover 0.8s ease-in-out forwards',
+        'lightbulb-glow-hover': 'lightbulb-glow-hover 1s ease-in-out',
         'preloader-icon-pulse': 'preloader-icon-pulse 1.8s infinite ease-in-out',
         'preloader-text-appear': 'preloader-text-appear 0.9s ease-out 0.2s forwards',
         'preloader-subtext-appear': 'preloader-subtext-appear 0.9s ease-out 0.5s forwards',
@@ -189,6 +194,7 @@ export default {
         'heart-handshake-hover': 'heart-handshake-hover 0.5s ease-in-out forwards',
         'handshake-hover': 'handshake-hover 0.4s ease-in-out',
         'users-hover': 'users-hover 0.4s ease-in-out',
+        'float-in': 'float-in 0.6s ease-out forwards',
   		}
   	}
   },
