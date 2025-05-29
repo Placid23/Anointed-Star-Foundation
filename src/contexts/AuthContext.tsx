@@ -6,7 +6,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabaseClient'; // Import Supabase client
-import type { Session, User as SupabaseUser } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 
 
 type UserRole = 'sponsor' | 'supporter' | 'admin';
@@ -35,37 +35,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { toast } = useToast();
 
+  const processAuthSession = (session: Session | null): User | null => {
+    if (session?.user) {
+      return {
+        id: session.user.id,
+        email: session.user.email!,
+        fullName: session.user.user_metadata?.fullName || session.user.email?.split('@')[0] || 'User',
+        role: (session.user.user_metadata?.role as UserRole) || 'supporter',
+      };
+    }
+    return null;
+  };
+
   useEffect(() => {
     setLoading(true);
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email!,
-          fullName: session.user.user_metadata?.fullName || session.user.email?.split('@')[0] || 'User',
-          role: (session.user.user_metadata?.role as UserRole) || 'supporter',
-        });
-      } else {
-        setUser(null);
-      }
+      setUser(processAuthSession(session));
       setLoading(false);
     });
 
-    // Check initial session explicitly as onAuthStateChange might not fire immediately for an existing session on page load.
     async function getInitialSession() {
         const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-            setUser({
-                id: session.user.id,
-                email: session.user.email!,
-                fullName: session.user.user_metadata?.fullName || session.user.email?.split('@')[0] || 'User',
-                role: (session.user.user_metadata?.role as UserRole) || 'supporter',
-            });
-        }
+        setUser(processAuthSession(session));
         setLoading(false);
     }
     getInitialSession();
-
 
     return () => {
       subscription?.unsubscribe();
