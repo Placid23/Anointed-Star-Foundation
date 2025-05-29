@@ -67,24 +67,27 @@ export default function HomePage() {
       <SectionWrapper>
         <PageTitle title="Get Involved" subtitle="Your support can transform lives. Find out how you can contribute." />
         <div className="grid md:grid-cols-3 gap-8 text-center">
-          <div className="p-6 bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow hover:border-primary border border-transparent">
-            <HeartHandshake className="h-12 w-12 text-accent mx-auto mb-4" />
+          {/* Donate Card */}
+          <div className="group p-6 bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary border border-transparent hover:scale-105">
+            <HeartHandshake className="h-12 w-12 text-accent mx-auto mb-4 transition-transform duration-300 ease-out group-hover:animate-heart-handshake-hover" />
             <h3 className="text-xl font-semibold mb-2 text-primary">Donate</h3>
             <p className="text-foreground/80 mb-4">Your generous contributions fuel our initiatives and bring hope to many.</p>
             <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
               <Link href="/donate">Support Us</Link>
             </Button>
           </div>
-          <div className="p-6 bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow hover:border-primary border border-transparent">
-            <Handshake className="h-12 w-12 text-accent mx-auto mb-4" />
+          {/* Volunteer Card */}
+          <div className="group p-6 bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary border border-transparent hover:scale-105">
+            <Handshake className="h-12 w-12 text-accent mx-auto mb-4 transition-transform duration-300 ease-out group-hover:animate-handshake-hover" />
             <h3 className="text-xl font-semibold mb-2 text-primary">Volunteer</h3>
             <p className="text-foreground/80 mb-4">Lend your time and skills to make a direct impact in our community programs.</p>
             <Button asChild variant="outline">
               <Link href="/contact#volunteer">Join Our Team</Link>
             </Button>
           </div>
-          <div className="p-6 bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow hover:border-primary border border-transparent">
-            <Users className="h-12 w-12 text-accent mx-auto mb-4" />
+          {/* Partner Card */}
+          <div className="group p-6 bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary border border-transparent hover:scale-105">
+            <Users className="h-12 w-12 text-accent mx-auto mb-4 transition-transform duration-300 ease-out group-hover:animate-users-hover" />
             <h3 className="text-xl font-semibold mb-2 text-primary">Partner</h3>
             <p className="text-foreground/80 mb-4">Collaborate with us to amplify our reach and create synergistic impact.</p>
             <Button asChild variant="outline">

@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/contexts/AuthContext';
 import Preloader from '@/components/shared/Preloader';
+import CookieConsent from '@/components/shared/CookieConsent'; // Import CookieConsent
 
 export default function AppClientLayout({
   children,
@@ -36,6 +37,7 @@ export default function AppClientLayout({
           </main>
           <Footer />
           <Toaster />
+          <CookieConsent /> {/* Add CookieConsent here */}
         </div>
       </AuthProvider>
     </>

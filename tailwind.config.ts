@@ -152,6 +152,21 @@ export default {
           '0%, 100%': { transform: 'scale(0.9) translate(0,0) rotate(0deg)', opacity: '0.6' },
           '50%': { transform: 'scale(1.1) translate(-1px, -1px) rotate(70deg)', opacity: '1' },
         },
+        'heart-handshake-hover': {
+          '0%': { transform: 'scale(1)' },
+          '30%': { transform: 'scale(1.1) rotate(-3deg)' },
+          '60%': { transform: 'scale(1.05) rotate(3deg)' },
+          '100%': { transform: 'scale(1.15)' },
+        },
+        'handshake-hover': {
+          '0%': { transform: 'translateY(0) rotate(0)' },
+          '50%': { transform: 'translateY(-3px) rotate(5deg)' },
+          '100%': { transform: 'translateY(0) rotate(0)' },
+        },
+        'users-hover': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.15) translateY(-2px)' },
+        },
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
@@ -171,6 +186,9 @@ export default {
         'preloader-sparkle-one': 'preloader-sparkle-one 3s infinite ease-in-out',
         'preloader-sparkle-two': 'preloader-sparkle-two 3.5s infinite ease-in-out 0.4s',
         'preloader-sparkle-three': 'preloader-sparkle-three 2.8s infinite ease-in-out 0.7s',
+        'heart-handshake-hover': 'heart-handshake-hover 0.5s ease-in-out forwards',
+        'handshake-hover': 'handshake-hover 0.4s ease-in-out',
+        'users-hover': 'users-hover 0.4s ease-in-out',
   		}
   	}
   },
