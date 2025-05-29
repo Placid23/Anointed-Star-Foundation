@@ -1,9 +1,18 @@
 
-import { Sparkles, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+'use client';
+
+import { Sparkles, Facebook, Twitter, Instagram, Linkedin, Palette } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   return (
     <footer className="bg-secondary text-secondary-foreground">
@@ -28,8 +37,21 @@ export default function Footer() {
           </Link>
         </div>
 
+        <p className="my-4 text-xs text-muted-foreground font-serif tracking-wider flex items-center justify-center space-x-2">
+          <Palette className="h-3.5 w-3.5" />
+          <span>Website crafted by Placid Kingsley</span>
+        </p>
+
         <p className="text-sm">
-          &copy; {currentYear} Anointed Star Hub. All rights reserved.
+          &copy; {isClient ? currentYear : '...'} Anointed Star Hub. All rights reserved.
+          {/* 
+            The server will render '...' because isClient is initially false.
+            The client will also initially render '...' because isClient is false.
+            After hydration, useEffect runs, isClient becomes true, currentYear is set,
+            and React re-renders this part to show the actual year.
+            This two-step render on the client (initial with '...', then update with year)
+            ensures no hydration mismatch for the dynamic year.
+          */}
         </p>
         <p className="text-xs mt-2">
           Making a difference, one star at a time.
