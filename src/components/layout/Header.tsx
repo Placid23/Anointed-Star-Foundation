@@ -1,12 +1,13 @@
 
 "use client";
 import Link from 'next/link';
-import { Sparkles, Menu, X } from 'lucide-react';
+import { Sparkles, Menu, X, LogIn, UserPlus, LayoutDashboard, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import NavLink from './NavLink';
+import { useAuth } from '@/contexts/AuthContext'; // Import useAuth
 
-const navItems = [
+const baseNavItems = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
   { href: '/programs', label: 'Programs' },
@@ -15,23 +16,22 @@ const navItems = [
   { href: '/map', label: 'Areas of Operation' },
   { href: '/proposal-generator', label: 'Proposal AI' },
   { href: '/news', label: 'News & Blog' },
-  // Donate item will be handled separately
 ];
 
 const donateNavItem = { href: '/donate', label: 'Donate' };
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading, logout } = useAuth(); // Get auth state
 
-  // Filter out the donate link if it's accidentally in navItems
-  const mainNavItems = navItems.filter(item => item.href !== donateNavItem.href);
+  const mainNavItems = baseNavItems.filter(item => item.href !== donateNavItem.href);
 
   return (
     <header className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary hover:text-primary/80 transition-colors">
-            <Sparkles className="h-7 w-7" /> {/* Slightly smaller logo icon */}
+            <Sparkles className="h-7 w-7" />
             <span>Anointed Star Hub</span>
           </Link>
 
@@ -42,6 +42,25 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
+            {loading ? (
+              <div className="animate-pulse h-8 w-20 bg-muted rounded-md ml-3"></div> // Skeleton loader
+            ) : user ? (
+              <>
+                <NavLink href="/dashboard">Dashboard</NavLink>
+                <Button onClick={logout} variant="outline" size="sm" className="ml-3">
+                  <LogOut className="mr-2 h-4 w-4" /> Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <NavLink href="/auth/login">
+                  <LogIn className="mr-1 h-4 w-4 inline-block" /> Login
+                </NavLink>
+                <NavLink href="/auth/signup">
+                  <UserPlus className="mr-1 h-4 w-4 inline-block" /> Sign Up
+                </NavLink>
+              </>
+            )}
             {donateNavItem && (
               <Button asChild size="sm" className="ml-3 bg-accent hover:bg-accent/90 text-accent-foreground">
                 <Link href={donateNavItem.href}>{donateNavItem.label}</Link>
@@ -50,7 +69,12 @@ export default function Header() {
           </nav>
           
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
+             {donateNavItem && (
+              <Button asChild size="sm" className="mr-2 bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Link href={donateNavItem.href}>{donateNavItem.label}</Link>
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="icon"
@@ -71,16 +95,36 @@ export default function Header() {
               <NavLink
                 key={item.href}
                 href={item.href}
-                className="block py-2.5 text-base" // Slightly larger tap area and text
+                className="block py-2.5 text-base"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
               </NavLink>
             ))}
-            {donateNavItem && (
-              <Button asChild size="default" className="w-full mt-3 py-2.5 bg-accent hover:bg-accent/90 text-accent-foreground text-base">
-                <Link href={donateNavItem.href} onClick={() => setMobileMenuOpen(false)}>{donateNavItem.label}</Link>
-              </Button>
+            <hr className="my-2 border-border"/>
+            {loading ? (
+                 <div className="space-y-2">
+                    <div className="animate-pulse h-8 w-full bg-muted rounded-md"></div>
+                    <div className="animate-pulse h-8 w-full bg-muted rounded-md"></div>
+                 </div>
+            ) : user ? (
+              <>
+                <NavLink href="/dashboard" className="block py-2.5 text-base" onClick={() => setMobileMenuOpen(false)}>
+                  <LayoutDashboard className="mr-2 h-4 w-4 inline-block" /> Dashboard
+                </NavLink>
+                <Button onClick={() => { logout(); setMobileMenuOpen(false); }} variant="outline" className="w-full mt-2 py-2.5 text-base">
+                  <LogOut className="mr-2 h-4 w-4" /> Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <NavLink href="/auth/login" className="block py-2.5 text-base" onClick={() => setMobileMenuOpen(false)}>
+                  <LogIn className="mr-2 h-4 w-4 inline-block" /> Login
+                </NavLink>
+                <NavLink href="/auth/signup" className="block py-2.5 text-base" onClick={() => setMobileMenuOpen(false)}>
+                  <UserPlus className="mr-2 h-4 w-4 inline-block" /> Sign Up
+                </NavLink>
+              </>
             )}
           </nav>
         </div>
