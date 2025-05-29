@@ -53,7 +53,7 @@ export default function HomePage() {
           {featuredPrograms.map((program, index) => (
             <div
               key={program.id}
-              className="animate-float-in opacity-0" // Start with opacity-0 for the animation
+              className="animate-float-in" // Removed opacity-0, animation starts from opacity 0
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <ProgramCard program={program} />
