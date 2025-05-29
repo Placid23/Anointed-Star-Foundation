@@ -102,6 +102,11 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-foreground/80">{member.bio}</p>
+                {member.name === 'Dr. Stella Placid' && (
+                  <p className="mt-4 text-xs italic text-muted-foreground/80 tracking-wider font-serif">
+                    ~ Dr. Stella Placid
+                  </p>
+                )}
               </CardContent>
             </Card>
           ))}

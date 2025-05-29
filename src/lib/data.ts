@@ -1,3 +1,4 @@
+
 import type { Program, NewsArticle, LeadershipMember } from '@/lib/types';
 
 export const programsData: Program[] = [
@@ -63,9 +64,9 @@ export const newsArticlesData: NewsArticle[] = [
 export const leadershipData: LeadershipMember[] = [
   {
     id: '1',
-    name: 'Dr. Evelyn Reed',
+    name: 'Dr. Stella Placid', // Updated CEO name
     role: 'Founder &amp; CEO',
-    bio: 'Dr. Reed has over 20 years of experience in non-profit management and community development. Her vision and dedication are the driving forces behind Anointed Star Hub.',
+    bio: 'Dr. Placid has over 20 years of experience in non-profit management and community development. Her vision and dedication are the driving forces behind Anointed Star Hub.',
     imageUrl: 'https://placehold.co/300x300.png',
     dataAiHint: 'professional portrait woman',
   },

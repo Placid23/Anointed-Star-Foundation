@@ -1,7 +1,8 @@
 
 "use client";
 import Link from 'next/link';
-import { Sparkles, Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, TrendingUp, Users2Icon, HandHeart } from 'lucide-react';
+import Image from 'next/image'; // Added Image import
+import { Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, TrendingUp, Users2Icon, HandHeart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import NavLink from './NavLink';
@@ -58,7 +59,15 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
-            <Sparkles className="h-6 w-6 transition-transform duration-300 ease-in-out group-hover:rotate-[15deg] group-hover:scale-110 animate-quick-twinkle" />
+            <Image
+              src="https://placehold.co/120x30.png" // Placeholder logo image
+              alt="Anointed Star Hub Logo"
+              width={120}
+              height={30}
+              className="h-8 w-auto object-contain group-hover:animate-quick-twinkle" // Adjust height as needed, maintain aspect ratio
+              data-ai-hint="foundation logo"
+              priority // Preload logo if it's LCP
+            />
             <span className="hidden sm:inline">Anointed Star Hub</span>
           </Link>
 
