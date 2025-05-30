@@ -26,8 +26,9 @@ export default function HomePage() {
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg">
               <Link href="/donate">Donate Now <HeartHandshake className="ml-2 h-5 w-5" /></Link>
             </Button>
+            {/* Link to /programs page removed */}
             <Button asChild size="lg" variant="outline">
-              <Link href="/programs">Explore Our Programs <ArrowRight className="ml-2 h-5 w-5" /></Link>
+              <Link href="/about">Learn About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
           </div>
         </div>
@@ -60,13 +61,7 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-        {programsData.length > 3 && (
-          <div className="text-center mt-12">
-            <Button asChild variant="default" size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Link href="/programs">View All Programs <ArrowRight className="ml-2 h-5 w-5" /></Link>
-            </Button>
-          </div>
-        )}
+        {/* "View All Programs" button removed as /programs page is removed */}
       </SectionWrapper>
 
       {/* Call to Action Section */}
@@ -111,8 +106,9 @@ export default function HomePage() {
             "Anointed Star Foundation gave me the skills and confidence to start my own business. My life has completely changed for the better!"
           </blockquote>
           <p className="font-semibold">- Maria S., Program Beneficiary</p>
+          {/* Link to /impact page removed */}
           <Button asChild variant="link" className="text-primary hover:text-primary/80 mt-6">
-            <Link href="/impact">See More Impact Stories <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            <Link href="/news">Read More Stories <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
          </div>
       </SectionWrapper>

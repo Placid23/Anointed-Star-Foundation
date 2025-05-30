@@ -16,8 +16,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { CreditCard, Heart, DollarSign, RefreshCw, Globe } from 'lucide-react';
-// programsData is not directly used for dedication options now, but might be useful for other context.
-// import { programsData } from '@/lib/data';
 
 const donationSchema = z.object({
   amount: z.coerce.number().positive({ message: 'Donation amount must be positive.' }),
@@ -35,13 +33,22 @@ const donationSchema = z.object({
 type DonationFormValues = z.infer<typeof donationSchema>;
 
 const suggestedAmounts = [25, 50, 100, 250, 500];
+
 const currencyOptions = [
-  { value: 'USD', label: 'USD - United States Dollar' },
-  { value: 'EUR', label: 'EUR - Euro' },
-  { value: 'GBP', label: 'GBP - British Pound Sterling' },
-  { value: 'CAD', label: 'CAD - Canadian Dollar' },
-  { value: 'AUD', label: 'AUD - Australian Dollar' },
+  { value: 'USD', label: 'USD - United States Dollar', symbol: '$' },
+  { value: 'EUR', label: 'EUR - Euro', symbol: '€' },
+  { value: 'GBP', label: 'GBP - British Pound Sterling', symbol: '£' },
+  { value: 'CAD', label: 'CAD - Canadian Dollar', symbol: 'CA$' },
+  { value: 'AUD', label: 'AUD - Australian Dollar', symbol: 'A$' },
+  { value: 'NGN', label: 'NGN - Nigerian Naira', symbol: '₦' },
+  { value: 'KES', label: 'KES - Kenyan Shilling', symbol: 'KSh' },
+  { value: 'GHS', label: 'GHS - Ghanaian Cedi', symbol: 'GH₵' },
 ];
+
+const getCurrencySymbol = (currencyCode: string): string => {
+  const currency = currencyOptions.find(c => c.value === currencyCode);
+  return currency ? currency.symbol : currencyCode; // Fallback to code if symbol not found
+};
 
 const programDedicationOptions = [
     { value: 'general', label: 'General Fund' },
@@ -67,18 +74,29 @@ export default function DonatePage() {
   });
 
   const selectedAmount = form.watch('amount');
-  // const customAmountVal = form.watch('customAmount'); // Not directly used in logic, but good for debugging if needed
+  const selectedCurrency = form.watch('currency');
+  const currentCurrencySymbol = getCurrencySymbol(selectedCurrency);
 
   const onSubmit: SubmitHandler<DonationFormValues> = (data) => {
-    const finalAmount = data.amount === -1 && data.customAmount ? parseFloat(data.customAmount) : data.amount;
-    
-    if (data.amount === -1 && (isNaN(finalAmount) || finalAmount <= 0) ) {
+    let finalAmount = data.amount;
+    if (data.amount === -1 && data.customAmount) {
+      const parsedCustomAmount = parseFloat(data.customAmount);
+      if (!isNaN(parsedCustomAmount) && parsedCustomAmount > 0) {
+        finalAmount = parsedCustomAmount;
+      } else {
         form.setError("customAmount", { type: "manual", message: "Please enter a valid custom amount." });
         return;
-    } else if (data.amount !== -1 && finalAmount <=0) {
-        form.setError("amount", { type: "manual", message: "Amount must be positive."});
+      }
+    } else if (data.amount !== -1 && finalAmount <= 0) {
+      form.setError("amount", { type: "manual", message: "Amount must be positive." });
+      return;
+    }
+    
+    if (finalAmount <= 0) {
+         form.setError("amount", { type: "manual", message: "Donation amount must be a positive value." });
         return;
     }
+
 
     console.log({ ...data, amount: finalAmount, currency: data.currency });
     // Placeholder for payment gateway integration & tax receipt
@@ -135,7 +153,7 @@ export default function DonatePage() {
                 name="amount"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Select Amount (in chosen currency)</FormLabel>
+                    <FormLabel className="text-lg">Select Amount (in {selectedCurrency})</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => field.onChange(parseInt(value))}
@@ -151,7 +169,7 @@ export default function DonatePage() {
                               htmlFor={`amount-${amt}`}
                               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary [&:has([data-state=checked])]:border-primary w-full cursor-pointer"
                             >
-                              <DollarSign className="mb-2 h-6 w-6" />{amt}
+                              <span className="text-2xl font-semibold">{currentCurrencySymbol}{amt}</span>
                             </FormLabel>
                           </FormItem>
                         ))}
@@ -163,7 +181,7 @@ export default function DonatePage() {
                               htmlFor="amount-custom"
                               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary [&:has([data-state=checked])]:border-primary w-full cursor-pointer"
                             >
-                              <DollarSign className="mb-2 h-6 w-6" />Custom
+                             <DollarSign className="mb-2 h-6 w-6" /> Custom
                             </FormLabel>
                           </FormItem>
                       </RadioGroup>
@@ -179,9 +197,12 @@ export default function DonatePage() {
                     name="customAmount"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Custom Amount (in chosen currency)</FormLabel>
+                        <FormLabel>Custom Amount (in {selectedCurrency})</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="Enter amount" {...field} step="any" />
+                            <div className="relative">
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-muted-foreground">{currentCurrencySymbol}</span>
+                                <Input type="number" placeholder="Enter amount" {...field} step="any" className="pl-8"/>
+                            </div>
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -306,4 +327,3 @@ export default function DonatePage() {
     </SectionWrapper>
   );
 }
-
