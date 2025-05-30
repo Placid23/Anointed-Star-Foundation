@@ -45,7 +45,7 @@ export default function Preloader({ visible }: PreloaderProps) {
           Anointed Star Foundation
         </p>
         <p className="mt-2 text-sm text-muted-foreground animate-preloader-subtext-appear">
-          Illuminating Futures...
+          Making a difference, one star at a time.....
         </p>
       </div>
     </div>

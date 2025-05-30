@@ -7,7 +7,7 @@ import ProgramCard from '@/components/shared/ProgramCard';
 import SectionWrapper from '@/components/shared/SectionWrapper';
 import FeedbackForm from '@/components/shared/FeedbackForm'; // Import the new FeedbackForm
 import { programsData } from '@/lib/data';
-import { Handshake, Users, HeartHandshake, ArrowRight } from 'lucide-react';
+import { Handshake, HeartHandshake, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   const featuredPrograms = programsData.slice(0, 3);
@@ -66,7 +66,7 @@ export default function HomePage() {
       {/* Call to Action Section */}
       <SectionWrapper>
         <PageTitle title="Get Involved" subtitle="Your support can transform lives. Find out how you can contribute." />
-        <div className="grid md:grid-cols-3 gap-8 text-center">
+        <div className="grid md:grid-cols-2 gap-8 text-center"> {/* Updated grid to md:grid-cols-2 */}
           {/* Donate Card */}
           <div className="group p-6 bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary border border-transparent hover:scale-105">
             <HeartHandshake className="h-12 w-12 text-accent mx-auto mb-4 transition-transform duration-300 ease-out group-hover:animate-heart-handshake-hover" />
@@ -85,15 +85,7 @@ export default function HomePage() {
               <Link href="/contact#volunteer">Join Our Team</Link>
             </Button>
           </div>
-          {/* Partner Card */}
-          <div className="group p-6 bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary border border-transparent hover:scale-105">
-            <Users className="h-12 w-12 text-accent mx-auto mb-4 transition-transform duration-300 ease-out group-hover:animate-users-hover" />
-            <h3 className="text-xl font-semibold mb-2 text-primary">Partner</h3>
-            <p className="text-foreground/80 mb-4">Collaborate with us to amplify our reach and create synergistic impact.</p>
-            <Button asChild variant="outline">
-              <Link href="/contact#partner">Become a Partner</Link>
-            </Button>
-          </div>
+          {/* Partner Card - REMOVED */}
         </div>
       </SectionWrapper>
 
