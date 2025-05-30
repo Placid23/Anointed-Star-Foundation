@@ -59,16 +59,15 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
-            {/* IMPORTANT: Update width and height to your logo's actual dimensions */}
             <Image
               src="/anointed-star-hub-logo.jpg" 
-              alt="Anointed Star Hub Logo"
-              width={120} // Update this to your logo's actual width
-              height={30}  // Update this to your logo's actual height
+              alt="Anointed Star Foundation Logo"
+              width={120} 
+              height={30}  
               className="h-8 w-auto object-contain group-hover:animate-quick-twinkle" 
               priority 
             />
-            <span className="hidden sm:inline">Anointed Star Hub</span>
+            <span className="hidden sm:inline">Anointed Star Foundation</span>
           </Link>
 
           {/* Desktop Navigation */}

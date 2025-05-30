@@ -11,7 +11,7 @@ export default function AboutPage() {
     <>
       <SectionWrapper>
         <PageTitle
-          title="About Anointed Star Hub"
+          title="About Anointed Star Foundation"
           subtitle="Dedicated to empowering individuals and fostering sustainable community development."
         />
       </SectionWrapper>
@@ -60,7 +60,7 @@ export default function AboutPage() {
         </div>
         <div className="prose prose-lg max-w-none text-foreground/90 leading-relaxed space-y-4">
           <p className="animate-float-in" style={{ animationDelay: '0.2s' }}>
-            Founded in 2010 by a group of passionate individuals, Anointed Star Hub began as a small initiative to address local educational disparities. Over the years, driven by community needs and the unwavering support of our partners and donors, we have expanded our scope and reach.
+            Founded in 2010 by a group of passionate individuals, Anointed Star Foundation began as a small initiative to address local educational disparities. Over the years, driven by community needs and the unwavering support of our partners and donors, we have expanded our scope and reach.
           </p>
           <p className="animate-float-in" style={{ animationDelay: '0.3s' }}>
             From humble beginnings, we have grown into a multifaceted foundation impacting thousands of lives annually. Key milestones include the launch of our flagship Youth Empowerment Initiative in 2012, the establishment of our first Community Health Clinic in 2015, and the expansion of our programs to three new regions by 2020.
@@ -79,7 +79,7 @@ export default function AboutPage() {
             </div>
         </div>
         <p className="text-center text-lg text-foreground/80 mb-10 max-w-2xl mx-auto animate-float-in" style={{ animationDelay: '0.2s' }}>
-            Meet the dedicated individuals guiding Anointed Star Hub towards its mission.
+            Meet the dedicated individuals guiding Anointed Star Foundation towards its mission.
         </p>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {leadershipData.map((member, index) => (

@@ -46,27 +46,27 @@ export const newsArticlesData: NewsArticle[] = [
     imageUrl: 'https://placehold.co/600x400.png',
     dataAiHint: 'charity event',
     summary: 'Our annual fundraising gala exceeded all expectations, raising crucial funds for our upcoming projects. A heartfelt thank you to all our donors and supporters!',
-    content: '&lt;p&gt;The Anointed Star Hub Annual Fundraising Gala, held on July 10th, was an unforgettable evening of generosity and community spirit. We are thrilled to announce that we surpassed our fundraising goal, raising over $200,000! These funds will be instrumental in expanding our Youth Empowerment Initiative and launching new health camps under our Community Health Program.&lt;/p&gt;&lt;p&gt;The event featured inspiring speeches from beneficiaries, captivating performances, and a lively auction. We extend our deepest gratitude to our sponsors, dedicated volunteers, and every guest who attended and contributed to this remarkable success. Your support empowers us to continue making a meaningful impact in the lives of those we serve.&lt;/p&gt;&lt;p&gt;Stay tuned for more updates on how these funds are being utilized and the positive changes they bring.&lt;/p&gt;',
+    content: '&lt;p&gt;The Anointed Star Foundation Annual Fundraising Gala, held on July 10th, was an unforgettable evening of generosity and community spirit. We are thrilled to announce that we surpassed our fundraising goal, raising over $200,000! These funds will be instrumental in expanding our Youth Empowerment Initiative and launching new health camps under our Community Health Program.&lt;/p&gt;&lt;p&gt;The event featured inspiring speeches from beneficiaries, captivating performances, and a lively auction. We extend our deepest gratitude to our sponsors, dedicated volunteers, and every guest who attended and contributed to this remarkable success. Your support empowers us to continue making a meaningful impact in the lives of those we serve.&lt;/p&gt;&lt;p&gt;Stay tuned for more updates on how these funds are being utilized and the positive changes they bring.&lt;/p&gt;',
   },
   {
     id: '2',
     slug: 'new-partnership-tech-company',
-    title: 'Anointed Star Hub Announces Strategic Partnership with TechForward Inc.',
+    title: 'Anointed Star Foundation Announces Strategic Partnership with TechForward Inc.',
     date: '2024-06-28',
     author: 'John Smith, CEO',
     imageUrl: 'https://placehold.co/600x400.png',
     dataAiHint: 'business partnership',
     summary: 'We are excited to partner with TechForward Inc. to enhance our digital literacy programs and provide cutting-edge resources to our beneficiaries.',
-    content: '&lt;p&gt;Anointed Star Hub is delighted to announce a new strategic partnership with TechForward Inc., a leading innovator in educational technology. This collaboration will significantly bolster our Youth Empowerment Initiative by integrating TechForward’s state-of-the-art learning platforms and providing access to specialized tech training modules.&lt;/p&gt;&lt;p&gt;Through this partnership, we aim to equip young individuals with essential digital skills, preparing them for the demands of the modern workforce. TechForward Inc. will also support our efforts by providing mentorship from their experienced professionals and donating refurbished computer hardware for our community centers.&lt;/p&gt;&lt;p&gt;"We believe that access to technology and quality education is a game-changer," said Sarah Chen, CEO of TechForward Inc. "We are proud to support Anointed Star Hub in their mission to create brighter futures."&lt;/p&gt;&lt;p&gt;This partnership marks a significant step forward in our commitment to providing comprehensive and impactful programs. We look forward to the positive outcomes this collaboration will bring to our communities.&lt;/p&gt;',
+    content: '&lt;p&gt;Anointed Star Foundation is delighted to announce a new strategic partnership with TechForward Inc., a leading innovator in educational technology. This collaboration will significantly bolster our Youth Empowerment Initiative by integrating TechForward’s state-of-the-art learning platforms and providing access to specialized tech training modules.&lt;/p&gt;&lt;p&gt;Through this partnership, we aim to equip young individuals with essential digital skills, preparing them for the demands of the modern workforce. TechForward Inc. will also support our efforts by providing mentorship from their experienced professionals and donating refurbished computer hardware for our community centers.&lt;/p&gt;&lt;p&gt;"We believe that access to technology and quality education is a game-changer," said Sarah Chen, CEO of TechForward Inc. "We are proud to support Anointed Star Foundation in their mission to create brighter futures."&lt;/p&gt;&lt;p&gt;This partnership marks a significant step forward in our commitment to providing comprehensive and impactful programs. We look forward to the positive outcomes this collaboration will bring to our communities.&lt;/p&gt;',
   },
 ];
 
 export const leadershipData: LeadershipMember[] = [
   {
     id: '1',
-    name: 'Dr. Stella Placid', // Updated CEO name
+    name: 'Dr. Stella Placid', 
     role: 'Founder &amp; CEO',
-    bio: 'Dr. Placid has over 20 years of experience in non-profit management and community development. Her vision and dedication are the driving forces behind Anointed Star Hub.',
+    bio: 'Dr. Placid has over 20 years of experience in non-profit management and community development. Her vision and dedication are the driving forces behind Anointed Star Foundation.',
     imageUrl: 'https://placehold.co/300x300.png',
     dataAiHint: 'professional portrait woman',
   },

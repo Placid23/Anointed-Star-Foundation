@@ -52,7 +52,7 @@ export default function SignupPage() {
       <PageTitle title="Create Your Account" />
       <Card className="max-w-md mx-auto shadow-lg">
         <CardHeader>
-          <CardTitle className="text-2xl text-primary">Join Anointed Star Hub</CardTitle>
+          <CardTitle className="text-2xl text-primary">Join Anointed Star Foundation</CardTitle>
           <CardDescription>Become part of our community and make a difference.</CardDescription>
         </CardHeader>
         <CardContent>

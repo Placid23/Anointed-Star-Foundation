@@ -15,7 +15,7 @@ const galleryImages = [
 
 const downloadableResources = [
   { id: 'res1', title: 'Annual Report 2023', description: 'Our comprehensive report on activities and financial performance in 2023.', fileType: 'PDF', downloadLink: '#' },
-  { id: 'res2', title: 'Foundation Brochure', description: 'An overview of Anointed Star Hub, our mission, vision, and programs.', fileType: 'PDF', downloadLink: '#' },
+  { id: 'res2', title: 'Foundation Brochure', description: 'An overview of Anointed Star Foundation, our mission, vision, and programs.', fileType: 'PDF', downloadLink: '#' },
   { id: 'res3', title: 'Program Impact Study', description: 'Detailed analysis of the impact of our key programs on communities.', fileType: 'PDF', downloadLink: '#' },
   { id: 'res4', title: 'Brand Logos & Guidelines', description: 'Download our official logos and brand usage guidelines.', fileType: 'ZIP', downloadLink: '#' },
 ];

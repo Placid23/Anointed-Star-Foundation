@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -75,7 +76,7 @@ export default function DonatePage() {
   return (
     <SectionWrapper>
       <PageTitle
-        title="Support Anointed Star Hub"
+        title="Support Anointed Star Foundation"
         subtitle="Your contribution empowers us to continue our vital work. Every donation, big or small, makes a difference."
       />
       <Card className="max-w-2xl mx-auto shadow-xl">

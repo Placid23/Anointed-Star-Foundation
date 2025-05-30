@@ -1,3 +1,4 @@
+
 import PageTitle from '@/components/shared/PageTitle';
 import NewsCard from '@/components/shared/NewsCard';
 import SectionWrapper from '@/components/shared/SectionWrapper';
@@ -8,7 +9,7 @@ export default function NewsPage() {
     <SectionWrapper>
       <PageTitle
         title="News & Blog"
-        subtitle="Stay updated with the latest happenings, stories, and insights from Anointed Star Hub."
+        subtitle="Stay updated with the latest happenings, stories, and insights from Anointed Star Foundation."
       />
       {newsArticlesData.length > 0 ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Cookie } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const COOKIE_CONSENT_KEY = 'anointed_star_hub_cookie_consent';
+const COOKIE_CONSENT_KEY = 'anointed_star_foundation_cookie_consent';
 
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false);

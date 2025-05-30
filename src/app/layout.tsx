@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Anointed Star Hub',
-  description: 'Empowering communities and creating brighter futures. Join Anointed Star Hub in making a difference.',
+  title: 'Anointed Star Foundation',
+  description: 'Empowering communities and creating brighter futures. Join Anointed Star Foundation in making a difference.',
   icons: {
     // Placeholder for potential future favicon, current guidelines say no favicon.
     // icon: '/favicon.ico',

@@ -1,3 +1,4 @@
+
 import PageTitle from '@/components/shared/PageTitle';
 import SectionWrapper from '@/components/shared/SectionWrapper';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ const impactStats = [
 
 const successStories = [
   {
-    quote: "Thanks to the vocational training, I now have a stable job and can support my family. Anointed Star Hub changed my life!",
+    quote: "Thanks to the vocational training, I now have a stable job and can support my family. Anointed Star Foundation changed my life!",
     name: "Amina K.",
     program: "Youth Empowerment Initiative",
     imageHint: "smiling person"
@@ -33,7 +34,7 @@ export default function ImpactPage() {
       <SectionWrapper>
         <PageTitle
           title="Our Impact"
-          subtitle="Discover the tangible difference Anointed Star Hub is making in communities, backed by data and real stories."
+          subtitle="Discover the tangible difference Anointed Star Foundation is making in communities, backed by data and real stories."
         />
       </SectionWrapper>
 

@@ -17,7 +17,7 @@ export default function HomePage() {
       <SectionWrapper className="bg-gradient-to-br from-primary/10 via-background to-background pt-24 pb-16 md:pt-32 md:pb-24 text-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
-            Welcome to <span className="text-primary">Anointed Star Hub</span>
+            Welcome to <span className="text-primary">Anointed Star Foundation</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-10">
             Empowering communities, illuminating futures. Join us in making a lasting impact.
@@ -38,7 +38,7 @@ export default function HomePage() {
         <PageTitle title="Who We Are" subtitle="Learn more about our mission to create positive change." />
         <div className="max-w-3xl mx-auto text-center text-foreground/90">
           <p className="mb-4">
-            Anointed Star Hub is a dedicated foundation committed to uplifting individuals and communities through impactful programs in education, health, and sustainable development. We believe in the power of collective effort to foster growth and opportunity for all.
+            Anointed Star Foundation is a dedicated foundation committed to uplifting individuals and communities through impactful programs in education, health, and sustainable development. We believe in the power of collective effort to foster growth and opportunity for all.
           </p>
           <Button asChild variant="link" className="text-primary hover:text-primary/80">
             <Link href="/about">Discover Our Story <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -53,7 +53,7 @@ export default function HomePage() {
           {featuredPrograms.map((program, index) => (
             <div
               key={program.id}
-              className="animate-float-in" // Removed opacity-0, animation starts from opacity 0
+              className="animate-float-in" 
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <ProgramCard program={program} />
@@ -108,7 +108,7 @@ export default function HomePage() {
          <PageTitle title="Real Impact, Real Stories" subtitle="See how your support is changing lives."/>
          <div className="max-w-3xl mx-auto text-center">
           <blockquote className="text-xl italic text-foreground/90 mb-4">
-            "Anointed Star Hub gave me the skills and confidence to start my own business. My life has completely changed for the better!"
+            "Anointed Star Foundation gave me the skills and confidence to start my own business. My life has completely changed for the better!"
           </blockquote>
           <p className="font-semibold">- Maria S., Program Beneficiary</p>
           <Button asChild variant="link" className="text-primary hover:text-primary/80 mt-6">

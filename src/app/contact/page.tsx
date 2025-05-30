@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -127,8 +128,8 @@ export default function ContactPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center">
                 <Mail className="h-5 w-5 text-accent mr-3 flex-shrink-0" />
-                <a href="mailto:info@anointedstarhub.org" className="text-foreground/90 hover:text-primary">
-                  info@anointedstarhub.org
+                <a href="mailto:info@anointedstarfoundation.org" className="text-foreground/90 hover:text-primary">
+                  info@anointedstarfoundation.org
                 </a>
               </div>
               <div className="flex items-center">
@@ -154,10 +155,10 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent>
               <p className="text-foreground/90 mb-4">
-                Anointed Star Hub actively seeks partnerships with organizations, corporations, and individuals who share our commitment to creating positive change. If you are interested in collaborating, please reach out to our partnerships team.
+                Anointed Star Foundation actively seeks partnerships with organizations, corporations, and individuals who share our commitment to creating positive change. If you are interested in collaborating, please reach out to our partnerships team.
               </p>
               <Button asChild variant="outline">
-                <a href="mailto:partnerships@anointedstarhub.org">
+                <a href="mailto:partnerships@anointedstarfoundation.org">
                   <Mail className="mr-2 h-4 w-4" /> Email Partnerships Team
                 </a>
               </Button>

@@ -1,3 +1,4 @@
+
 import PageTitle from '@/components/shared/PageTitle';
 import SectionWrapper from '@/components/shared/SectionWrapper';
 import Image from 'next/image';
@@ -8,7 +9,7 @@ export default function MapPage() {
     <SectionWrapper>
       <PageTitle
         title="Our Areas of Operation"
-        subtitle="Visualizing Anointed Star Hub's reach and program locations across various regions."
+        subtitle="Visualizing Anointed Star Foundation's reach and program locations across various regions."
       />
       
       <div className="bg-card p-6 md:p-8 rounded-lg shadow-xl text-center">

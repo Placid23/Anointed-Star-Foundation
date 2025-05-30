@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
         <div className="flex justify-center items-center mb-4">
           <Sparkles className="h-6 w-6 mr-2 text-primary" />
-          <p className="text-lg font-semibold">Anointed Star Hub</p>
+          <p className="text-lg font-semibold">Anointed Star Foundation</p>
         </div>
         
         <div className="mb-4 flex justify-center space-x-6">
@@ -37,13 +37,13 @@ export default function Footer() {
           </Link>
         </div>
 
-        <p className="my-4 text-xs text-muted-foreground font-serif tracking-wider flex items-center justify-center space-x-2">
+        <p className="my-4 text-xs text-muted-foreground/80 font-serif tracking-wider flex items-center justify-center space-x-2">
           <Palette className="h-3.5 w-3.5" />
           <span>Website crafted by Placid Kingsley</span>
         </p>
 
         <p className="text-sm">
-          &copy; {isClient ? currentYear : '...'} Anointed Star Hub. All rights reserved.
+          &copy; {isClient ? currentYear : '...'} Anointed Star Foundation. All rights reserved.
           {/* 
             The server will render '...' because isClient is initially false.
             The client will also initially render '...' because isClient is false.

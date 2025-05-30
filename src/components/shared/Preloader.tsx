@@ -25,7 +25,7 @@ export default function Preloader({ visible }: PreloaderProps) {
         <div className="animate-preloader-logo-appear">
           <Image
             src="/anointed-star-hub-logo.jpg" 
-            alt="Anointed Star Hub Logo"
+            alt="Anointed Star Foundation Logo"
             width={180} 
             height={45} 
             className="object-contain animate-preloader-logo-pulse-glow"
@@ -42,7 +42,7 @@ export default function Preloader({ visible }: PreloaderProps) {
 
       <div className="text-center">
         <p className="text-3xl font-bold text-primary animate-preloader-text-appear tracking-wide">
-          Anointed Star Hub
+          Anointed Star Foundation
         </p>
         <p className="mt-2 text-sm text-muted-foreground animate-preloader-subtext-appear">
           Illuminating Futures...
