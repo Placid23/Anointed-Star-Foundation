@@ -2,7 +2,7 @@
 "use client";
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, TrendingUp, Users2Icon, HandHeart } from 'lucide-react';
+import { Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, TrendingUp, HandHeart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import NavLink from './NavLink';
@@ -60,12 +60,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
             <Image
-              src="/anointed-star-hub-logo.jpg" 
+              src="/anointed-star-hub-logo.jpg"
               alt="Anointed Star Foundation Logo"
-              width={120} 
-              height={30}  
-              className="h-8 w-auto object-contain group-hover:animate-quick-twinkle" 
-              priority 
+              width={120} // IMPORTANT: Replace with your logo's actual width
+              height={30}  // IMPORTANT: Replace with your logo's actual height
+              className="h-8 object-contain group-hover:animate-quick-twinkle" // Removed w-auto
+              priority
             />
             <span className="hidden sm:inline">Anointed Star Foundation</span>
           </Link>
@@ -83,7 +83,7 @@ export default function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="px-3 py-2 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-muted data-[state=open]:bg-muted group">
-                    More <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    More <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:animate-icon-bounce" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -152,7 +152,7 @@ export default function Header() {
               {donateNavItem && (
                 <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground group">
                   <Link href={donateNavItem.href} className="flex items-center gap-1.5">
-                    <donateNavItem.icon className={cn("h-4 w-4 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)}/> {donateNavItem.label}
+                    <HandHeart className={cn("h-4 w-4 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)}/> {donateNavItem.label}
                   </Link>
                 </Button>
               )}
@@ -218,7 +218,7 @@ export default function Header() {
             {donateNavItem && (
               <Button asChild size="lg" className="w-full mt-2 bg-accent hover:bg-accent/90 text-accent-foreground group">
                 <Link href={donateNavItem.href} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                  <donateNavItem.icon className={cn("h-5 w-5 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)} /> {donateNavItem.label}
+                  <HandHeart className={cn("h-5 w-5 transition-transform duration-200 ease-in-out", donateNavItem.hoverAnimation)} /> {donateNavItem.label}
                 </Link>
               </Button>
             )}
