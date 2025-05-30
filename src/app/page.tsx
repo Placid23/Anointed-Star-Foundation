@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import PageTitle from '@/components/shared/PageTitle';
 import ProgramCard from '@/components/shared/ProgramCard';
 import SectionWrapper from '@/components/shared/SectionWrapper';
+import FeedbackForm from '@/components/shared/FeedbackForm'; // Import the new FeedbackForm
 import { programsData } from '@/lib/data';
 import { Handshake, Users, HeartHandshake, ArrowRight } from 'lucide-react';
 
@@ -96,15 +97,13 @@ export default function HomePage() {
         </div>
       </SectionWrapper>
 
-      {/* Testimonial/Impact Snippet */}
+      {/* Feedback Section */}
       <SectionWrapper className="bg-primary/10">
-         <PageTitle title="Real Impact, Real Stories" subtitle="See how your support is changing lives."/>
-         <div className="max-w-3xl mx-auto text-center">
-          <blockquote className="text-xl italic text-foreground/90 mb-4">
-            "Anointed Star Foundation gave me the skills and confidence to start my own business. My life has completely changed for the better!"
-          </blockquote>
-          <p className="font-semibold">- Maria S., Program Beneficiary</p>
-         </div>
+         <PageTitle 
+            title="Share Your Feedback" 
+            subtitle="We value your thoughts and experiences. Let us know how we're doing!"
+         />
+         <FeedbackForm />
       </SectionWrapper>
     </>
   );
