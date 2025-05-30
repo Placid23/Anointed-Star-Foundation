@@ -61,7 +61,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
             {/* IMPORTANT: Update width and height to your logo's actual dimensions */}
             <Image
-              src="/anointed-star-hub-logo.png" 
+              src="/anointed-star-hub-logo.jpg" 
               alt="Anointed Star Hub Logo"
               width={120} // Update this to your logo's actual width
               height={30}  // Update this to your logo's actual height
