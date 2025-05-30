@@ -15,12 +15,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { CreditCard, Heart, DollarSign, RefreshCw } from 'lucide-react';
-import { programsData } from '@/lib/data';
+import { CreditCard, Heart, DollarSign, RefreshCw, Globe } from 'lucide-react';
+// programsData is not directly used for dedication options now, but might be useful for other context.
+// import { programsData } from '@/lib/data';
 
 const donationSchema = z.object({
   amount: z.coerce.number().positive({ message: 'Donation amount must be positive.' }),
   customAmount: z.string().optional(),
+  currency: z.string().min(3, { message: 'Please select a currency.' }),
   donationType: z.enum(['one-time', 'recurring'], { required_error: 'Please select a donation type.' }),
   program: z.string().optional(),
   firstName: z.string().min(1, { message: 'First name is required.' }),
@@ -33,6 +35,20 @@ const donationSchema = z.object({
 type DonationFormValues = z.infer<typeof donationSchema>;
 
 const suggestedAmounts = [25, 50, 100, 250, 500];
+const currencyOptions = [
+  { value: 'USD', label: 'USD - United States Dollar' },
+  { value: 'EUR', label: 'EUR - Euro' },
+  { value: 'GBP', label: 'GBP - British Pound Sterling' },
+  { value: 'CAD', label: 'CAD - Canadian Dollar' },
+  { value: 'AUD', label: 'AUD - Australian Dollar' },
+];
+
+const programDedicationOptions = [
+    { value: 'general', label: 'General Fund' },
+    { value: 'youth-empowerment', label: 'Children Empowerment Initiative' },
+    { value: 'community-health', label: 'Community Health Program' },
+    { value: 'environmental-conservation', label: 'Social Conservation Project' },
+];
 
 export default function DonatePage() {
   const { toast } = useToast();
@@ -40,6 +56,7 @@ export default function DonatePage() {
     resolver: zodResolver(donationSchema),
     defaultValues: {
       amount: 50,
+      currency: 'USD',
       donationType: 'one-time',
       firstName: '',
       lastName: '',
@@ -50,7 +67,7 @@ export default function DonatePage() {
   });
 
   const selectedAmount = form.watch('amount');
-  const customAmountVal = form.watch('customAmount');
+  // const customAmountVal = form.watch('customAmount'); // Not directly used in logic, but good for debugging if needed
 
   const onSubmit: SubmitHandler<DonationFormValues> = (data) => {
     const finalAmount = data.amount === -1 && data.customAmount ? parseFloat(data.customAmount) : data.amount;
@@ -63,12 +80,11 @@ export default function DonatePage() {
         return;
     }
 
-
-    console.log({ ...data, amount: finalAmount });
+    console.log({ ...data, amount: finalAmount, currency: data.currency });
     // Placeholder for payment gateway integration & tax receipt
     toast({
       title: 'Thank You for Your Generosity!',
-      description: `Your ${data.donationType} donation of $${finalAmount} is being processed.`,
+      description: `Your ${data.donationType} donation of ${data.currency} ${finalAmount} is being processed.`,
     });
     form.reset();
   };
@@ -84,18 +100,42 @@ export default function DonatePage() {
           <CardTitle className="text-2xl text-primary flex items-center">
             <Heart className="mr-2 h-6 w-6" /> Make a Donation
           </CardTitle>
-          <CardDescription>Choose your donation amount and frequency.</CardDescription>
+          <CardDescription>Choose your donation amount, currency, and frequency.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              {/* Currency Selection */}
+              <FormField
+                control={form.control}
+                name="currency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg flex items-center"><Globe className="mr-2 h-5 w-5 text-muted-foreground" /> Select Currency</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a currency" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {currencyOptions.map(currency => (
+                            <SelectItem key={currency.value} value={currency.value}>{currency.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Amount Selection */}
               <FormField
                 control={form.control}
                 name="amount"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Select Amount ($)</FormLabel>
+                    <FormLabel className="text-lg">Select Amount (in chosen currency)</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => field.onChange(parseInt(value))}
@@ -111,7 +151,7 @@ export default function DonatePage() {
                               htmlFor={`amount-${amt}`}
                               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary [&:has([data-state=checked])]:border-primary w-full cursor-pointer"
                             >
-                              <DollarSign className="mb-2 h-6 w-6" />${amt}
+                              <DollarSign className="mb-2 h-6 w-6" />{amt}
                             </FormLabel>
                           </FormItem>
                         ))}
@@ -139,9 +179,9 @@ export default function DonatePage() {
                     name="customAmount"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Custom Amount ($)</FormLabel>
+                        <FormLabel>Custom Amount (in chosen currency)</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="Enter amount" {...field} />
+                            <Input type="number" placeholder="Enter amount" {...field} step="any" />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -195,9 +235,8 @@ export default function DonatePage() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="general">General Fund</SelectItem>
-                        {programsData.map(program => (
-                            <SelectItem key={program.id} value={program.slug}>{program.title}</SelectItem>
+                        {programDedicationOptions.map(option => (
+                            <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -210,7 +249,7 @@ export default function DonatePage() {
               />
               
               {/* Personal Information */}
-              <div className="space-y-2">
+              <div className="space-y-3">
                  <h3 className="text-lg font-medium">Personal Information</h3>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name="firstName" render={({ field }) => ( <FormItem><FormLabel>First Name</FormLabel><FormControl><Input placeholder="John" {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -267,3 +306,4 @@ export default function DonatePage() {
     </SectionWrapper>
   );
 }
+
