@@ -58,16 +58,22 @@ export default function Header() {
     <header className="bg-background/90 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors group">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-primary group" // Removed text-xl font-bold
+          >
             <Image
               src="/anointed-star-hub-logo.jpg"
               alt="Anointed Star Foundation Logo"
-              width={120} // IMPORTANT: Replace with your logo's actual width
-              height={30}  // IMPORTANT: Replace with your logo's actual height
-              className="h-8 object-contain group-hover:animate-quick-twinkle" // Removed w-auto
+              width={120} // YOU MUST UPDATE THIS TO YOUR LOGO'S ACTUAL WIDTH
+              height={30}  // YOU MUST UPDATE THIS TO YOUR LOGO'S ACTUAL HEIGHT
+              className="h-8 object-contain group-hover:animate-quick-twinkle flex-shrink-0"
               priority
             />
-            <span className="hidden sm:inline">Anointed Star Foundation</span>
+            {/* Apply font size and weight directly to the span for better control */}
+            <span className="hidden sm:inline font-bold whitespace-nowrap text-base md:text-lg lg:text-xl">
+              Anointed Star Foundation
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
