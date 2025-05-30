@@ -2,7 +2,7 @@
 "use client";
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, UserCircle, ChevronDown, LogIn, UserPlus, LayoutDashboard, LogOut, LifeBuoy, Map, FileText, Lightbulb, Newspaper, Info, Home, Sparkles, HandHeart } from 'lucide-react';
+import { Menu, X, UserCircle, LogIn, UserPlus, LayoutDashboard, LogOut, FileText, Lightbulb, Info, Home, Sparkles, HandHeart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import NavLink from './NavLink';
@@ -21,19 +21,12 @@ import { cn } from '@/lib/utils';
 const coreNavItems = [
   { href: '/', label: 'Home', icon: Home, hoverAnimation: 'group-hover:animate-icon-bounce' },
   { href: '/about', label: 'About Us', icon: Info, hoverAnimation: 'group-hover:animate-icon-shake' },
-  // { href: '/programs', label: 'Programs', icon: LifeBuoy, hoverAnimation: 'group-hover:animate-icon-float' }, // Removed
-  // { href: '/impact', label: 'Our Impact', icon: TrendingUp, hoverAnimation: 'group-hover:animate-icon-pulse-subtle' }, // Removed
-  { href: '/news', label: 'News & Blog', icon: Newspaper, hoverAnimation: 'group-hover:animate-icon-shake' },
-];
-
-const moreNavItems = [
   { href: '/media', label: 'Media', icon: FileText, hoverAnimation: 'group-hover:animate-icon-shake' },
-  { href: '/map', label: 'Areas of Operation', icon: Map, hoverAnimation: 'group-hover:animate-icon-bounce' },
   { href: '/proposal-generator', label: 'Proposal AI', icon: Lightbulb, hoverAnimation: 'group-hover:animate-lightbulb-glow-hover' },
 ];
 
-// Filter out any items that might have been accidentally left if their href was a base for a removed page.
-const allNavItems = [...coreNavItems.filter(item => item.href !== '/programs' && item.href !== '/impact'), ...moreNavItems];
+// All items are now core items
+const allNavItems = [...coreNavItems];
 
 const donateNavItem = { href: '/donate', label: 'Donate', icon: HandHeart, hoverAnimation: 'group-hover:animate-icon-handheart-beat' };
 
@@ -84,26 +77,6 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
-
-            {moreNavItems.length > 0 && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="px-3 py-2 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-muted data-[state=open]:bg-muted group">
-                    More <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:animate-icon-bounce" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  {moreNavItems.map((item) => (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href} className="flex items-center gap-2 group">
-                        {renderIcon(item.icon, item.hoverAnimation)}
-                        {item.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
             
             <div className="flex items-center space-x-2 ml-3">
               {loading ? (
