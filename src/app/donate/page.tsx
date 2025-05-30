@@ -18,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CreditCard, Heart, DollarSign, RefreshCw, Globe } from 'lucide-react';
 
 const donationSchema = z.object({
-  amount: z.coerce.number().positive({ message: 'Donation amount must be positive.' }),
+  amount: z.coerce.number(), // Value from radio buttons (could be -1 for custom)
   customAmount: z.string().optional(),
   currency: z.string().min(3, { message: 'Please select a currency.' }),
   donationType: z.enum(['one-time', 'recurring'], { required_error: 'Please select a donation type.' }),
@@ -28,7 +28,37 @@ const donationSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
   anonymous: z.boolean().default(false),
   coverFees: z.boolean().default(false),
+}).superRefine((data, ctx) => {
+  if (data.amount === -1) { // Custom amount selected
+    if (!data.customAmount || data.customAmount.trim() === "") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Please enter a custom donation amount.',
+        path: ['customAmount'],
+      });
+      return; // Stop further checks if custom amount is not even provided
+    }
+    const parsedCustomAmount = parseFloat(data.customAmount);
+    if (isNaN(parsedCustomAmount) || parsedCustomAmount <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Custom donation amount must be a positive number.',
+        path: ['customAmount'],
+      });
+    }
+  } else { // Predefined amount selected
+    if (data.amount <= 0) {
+      // This message will be displayed if a predefined amount somehow is <=0
+      // (Our current suggestedAmounts are all positive, so this is a safeguard)
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Selected donation amount must be positive.',
+        path: ['amount'], // Error associated with the radio group
+      });
+    }
+  }
 });
+
 
 type DonationFormValues = z.infer<typeof donationSchema>;
 
@@ -63,7 +93,7 @@ export default function DonatePage() {
     resolver: zodResolver(donationSchema),
     defaultValues: {
       amount: 50,
-      customAmount: '', // Initialize customAmount
+      customAmount: '',
       currency: 'USD',
       donationType: 'one-time',
       firstName: '',
@@ -75,33 +105,24 @@ export default function DonatePage() {
     },
   });
 
-  const selectedAmount = form.watch('amount');
+  const selectedAmountRadioValue = form.watch('amount');
   const selectedCurrency = form.watch('currency');
   const currentCurrencySymbol = getCurrencySymbol(selectedCurrency);
 
   const onSubmit: SubmitHandler<DonationFormValues> = (data) => {
+    // Zod validation (superRefine) now handles the positivity and presence of customAmount.
+    // We just need to ensure finalAmount gets the correct value if customAmount was used.
     let finalAmount = data.amount;
     if (data.amount === -1 && data.customAmount) {
-      const parsedCustomAmount = parseFloat(data.customAmount);
-      if (!isNaN(parsedCustomAmount) && parsedCustomAmount > 0) {
-        finalAmount = parsedCustomAmount;
-      } else {
-        form.setError("customAmount", { type: "manual", message: "Please enter a valid custom amount." });
-        return;
-      }
-    } else if (data.amount !== -1 && finalAmount <= 0) {
-      form.setError("amount", { type: "manual", message: "Amount must be positive." });
-      return;
+        // By the time we are here, superRefine has ensured customAmount is a valid positive number string
+        // if the form submission proceeded.
+        finalAmount = parseFloat(data.customAmount);
     }
     
-    if (finalAmount <= 0) {
-         form.setError("amount", { type: "manual", message: "Donation amount must be a positive value." });
-        return;
-    }
-
+    // React Hook Form with Zod resolver should prevent onSubmit if validation fails.
+    // Thus, `finalAmount` here should always be valid if this function is called.
 
     console.log({ ...data, amount: finalAmount, currency: data.currency });
-    // Placeholder for payment gateway integration & tax receipt
     toast({
       title: 'Thank You for Your Generosity!',
       description: `Your ${data.donationType} donation of ${getCurrencySymbol(data.currency)}${finalAmount} is being processed.`,
@@ -188,12 +209,12 @@ export default function DonatePage() {
                           </FormItem>
                       </RadioGroup>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage /> {/* This will show errors for the 'amount' field (radio group) */}
                   </FormItem>
                 )}
               />
 
-              {selectedAmount === -1 && (
+              {selectedAmountRadioValue === -1 && (
                  <FormField
                     control={form.control}
                     name="customAmount"
@@ -206,7 +227,7 @@ export default function DonatePage() {
                                 <Input type="number" placeholder="Enter amount" {...field} step="any" className="pl-8"/>
                             </div>
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage /> {/* This will show errors for the 'customAmount' field */}
                         </FormItem>
                     )}
                  />
