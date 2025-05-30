@@ -20,7 +20,7 @@ export default function HomePage() {
             Welcome to <span className="text-primary">Anointed Star Foundation</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-3xl mx-auto mb-10">
-            Empowering communities, illuminating futures. Join us in making a lasting impact.
+            Empowering, Illuminating and promoting Happiness. Join us in making a lasting impact.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg">
@@ -104,10 +104,6 @@ export default function HomePage() {
             "Anointed Star Foundation gave me the skills and confidence to start my own business. My life has completely changed for the better!"
           </blockquote>
           <p className="font-semibold">- Maria S., Program Beneficiary</p>
-          {/* Removed link to news, as news page is removed */}
-          {/* <Button asChild variant="link" className="text-primary hover:text-primary/80 mt-6">
-            <Link href="/news">Read More Stories <ArrowRight className="ml-2 h-4 w-4" /></Link>
-          </Button> */}
          </div>
       </SectionWrapper>
     </>
