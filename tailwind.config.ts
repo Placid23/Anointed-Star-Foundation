@@ -122,13 +122,17 @@ export default {
           '80%': { transform: 'scale(1.1) rotate(2deg)' },
         },
         'lightbulb-glow-hover': {
-            '0%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' }, /* Start with no glow or less opacity */
+            '0%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' },
             '50%': { filter: 'drop-shadow(0 0 6px hsl(var(--primary)/0.7)) drop-shadow(0 0 12px hsl(var(--primary) / 0.4))', opacity: '1' },
-            '100%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' }, /* Return to subtle state */
+            '100%': { filter: 'drop-shadow(0 0 1px hsl(var(--primary)/0.0))', opacity: '0.7' },
         },
-        'preloader-icon-pulse': {
-          '0%, 100%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 6px hsl(var(--primary)/0.4))' },
-          '50%': { transform: 'scale(1.12)', filter: 'drop-shadow(0 0 20px hsl(var(--primary)/0.7))' },
+        'preloader-logo-appear': {
+          '0%': { opacity: '0', transform: 'scale(0.8)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'preloader-logo-pulse-glow': {
+          '0%, 100%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 4px hsl(var(--primary)/0.2))' },
+          '50%': { transform: 'scale(1.03)', filter: 'drop-shadow(0 0 12px hsl(var(--primary)/0.4))' },
         },
         'preloader-text-appear': {
           '0%': { opacity: '0', transform: 'translateY(15px)' },
@@ -185,9 +189,10 @@ export default {
         'icon-point-left': 'icon-point-left 0.3s ease-out',
         'icon-handheart-beat': 'icon-handheart-beat 0.6s ease-in-out',
         'lightbulb-glow-hover': 'lightbulb-glow-hover 1s ease-in-out',
-        'preloader-icon-pulse': 'preloader-icon-pulse 1.8s infinite ease-in-out',
-        'preloader-text-appear': 'preloader-text-appear 0.9s ease-out 0.2s forwards',
-        'preloader-subtext-appear': 'preloader-subtext-appear 0.9s ease-out 0.5s forwards',
+        'preloader-logo-appear': 'preloader-logo-appear 0.8s ease-out forwards',
+        'preloader-logo-pulse-glow': 'preloader-logo-pulse-glow 2.5s infinite ease-in-out 0.8s', /* Starts after appear animation */
+        'preloader-text-appear': 'preloader-text-appear 0.9s ease-out 0.5s forwards', /* Delay text slightly more */
+        'preloader-subtext-appear': 'preloader-subtext-appear 0.9s ease-out 0.8s forwards', /* Delay subtext slightly more */
         'preloader-sparkle-one': 'preloader-sparkle-one 3s infinite ease-in-out',
         'preloader-sparkle-two': 'preloader-sparkle-two 3.5s infinite ease-in-out 0.4s',
         'preloader-sparkle-three': 'preloader-sparkle-three 2.8s infinite ease-in-out 0.7s',
