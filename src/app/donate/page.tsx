@@ -52,9 +52,9 @@ const getCurrencySymbol = (currencyCode: string): string => {
 
 const programDedicationOptions = [
     { value: 'general', label: 'General Fund' },
-    { value: 'youth-empowerment', label: 'Children Empowerment Initiative' },
+    { value: 'children-empowerment', label: 'Children Empowerment Initiative' },
     { value: 'community-health', label: 'Community Health Program' },
-    { value: 'environmental-conservation', label: 'Social Conservation Project' },
+    { value: 'social-conservation', label: 'Social Conservation Project' },
 ];
 
 export default function DonatePage() {
@@ -63,6 +63,7 @@ export default function DonatePage() {
     resolver: zodResolver(donationSchema),
     defaultValues: {
       amount: 50,
+      customAmount: '', // Initialize customAmount
       currency: 'USD',
       donationType: 'one-time',
       firstName: '',
@@ -70,6 +71,7 @@ export default function DonatePage() {
       email: '',
       anonymous: false,
       coverFees: false,
+      program: 'general',
     },
   });
 
@@ -102,7 +104,7 @@ export default function DonatePage() {
     // Placeholder for payment gateway integration & tax receipt
     toast({
       title: 'Thank You for Your Generosity!',
-      description: `Your ${data.donationType} donation of ${data.currency} ${finalAmount} is being processed.`,
+      description: `Your ${data.donationType} donation of ${getCurrencySymbol(data.currency)}${finalAmount} is being processed.`,
     });
     form.reset();
   };
@@ -153,7 +155,7 @@ export default function DonatePage() {
                 name="amount"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Select Amount (in {selectedCurrency})</FormLabel>
+                    <FormLabel className="text-lg">Select Amount (in {currentCurrencySymbol})</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => field.onChange(parseInt(value))}
@@ -197,7 +199,7 @@ export default function DonatePage() {
                     name="customAmount"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Custom Amount (in {selectedCurrency})</FormLabel>
+                        <FormLabel>Custom Amount (in {currentCurrencySymbol})</FormLabel>
                         <FormControl>
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-muted-foreground">{currentCurrencySymbol}</span>
@@ -327,3 +329,4 @@ export default function DonatePage() {
     </SectionWrapper>
   );
 }
+
