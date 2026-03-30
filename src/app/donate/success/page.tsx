@@ -35,7 +35,6 @@ function SuccessContent() {
 
     useEffect(() => {
         setMounted(true);
-        // Move dynamic values into useEffect to prevent hydration mismatch
         const existingId = searchParams.get('id');
         setTransactionId(existingId || 'TXN-' + Math.random().toString(36).substring(7).toUpperCase());
         setCurrentDate(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
@@ -58,15 +57,15 @@ function SuccessContent() {
     );
 
     return (
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-5xl mx-auto space-y-8 md:space-y-12 px-4">
             <div className="text-center animate-in fade-in zoom-in duration-700">
-                <div className="inline-flex items-center justify-center p-4 bg-green-100 rounded-full mb-6">
-                    <CheckCircle2 className="h-16 w-16 text-green-600 animate-bounce" />
+                <div className="inline-flex items-center justify-center p-3 md:p-4 bg-green-100 rounded-full mb-4 md:mb-6">
+                    <CheckCircle2 className="h-10 w-10 md:h-16 md:w-16 text-green-600 animate-bounce" />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-primary mb-4 tracking-tight">
+                <h1 className="text-3xl md:text-5xl font-black text-primary mb-3 md:mb-4 tracking-tight leading-tight">
                     Thank You, {name.split(' ')[0]}!
                 </h1>
-                <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
+                <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium px-2">
                     Your contribution of <span className="text-primary font-bold">{currency} {parseFloat(amount).toLocaleString()}</span> has been successfully processed. 
                     You've just lit a new star in our community.
                 </p>
@@ -83,13 +82,13 @@ function SuccessContent() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4 pt-4">
-                            <div className="flex justify-between items-center text-sm">
+                            <div className="flex justify-between items-center text-xs md:text-sm">
                                 <span className="text-muted-foreground flex items-center gap-2">
                                     <Hash className="h-3 w-3" /> Transaction ID
                                 </span>
-                                <span className="font-mono font-bold text-xs bg-muted px-2 py-1 rounded">{transactionId}</span>
+                                <span className="font-mono font-bold text-[10px] md:text-xs bg-muted px-2 py-1 rounded truncate ml-2">{transactionId}</span>
                             </div>
-                            <div className="flex justify-between items-center text-sm">
+                            <div className="flex justify-between items-center text-xs md:text-sm">
                                 <span className="text-muted-foreground flex items-center gap-2">
                                     <Calendar className="h-3 w-3" /> Date
                                 </span>
@@ -98,18 +97,18 @@ function SuccessContent() {
                             <Separator />
                             <div className="flex justify-between items-start py-2">
                                 <div className="space-y-1">
-                                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Allocated To</p>
-                                    <p className="font-bold text-primary capitalize">{program}</p>
+                                    <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider font-bold">Allocated To</p>
+                                    <p className="font-bold text-primary capitalize text-sm md:text-base">{program}</p>
                                 </div>
                             </div>
-                            <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
-                                <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest font-black">Final Amount</p>
-                                <div className="text-3xl font-black flex items-baseline gap-2">
-                                    <span className="text-primary text-xl">{currency}</span>
+                            <div className="bg-primary/5 p-3 md:p-4 rounded-xl border border-primary/10">
+                                <p className="text-[10px] md:text-xs text-muted-foreground mb-1 uppercase tracking-widest font-black">Final Amount</p>
+                                <div className="text-2xl md:text-3xl font-black flex items-baseline gap-2">
+                                    <span className="text-primary text-lg md:text-xl">{currency}</span>
                                     {parseFloat(amount).toLocaleString()}
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2 text-[10px] text-green-600 font-bold bg-green-50 p-2 rounded border border-green-100">
+                            <div className="flex items-center gap-2 text-[9px] md:text-[10px] text-green-600 font-bold bg-green-50 p-2 rounded border border-green-100">
                                 <ShieldCheck className="h-3 w-3" />
                                 SECURE TRANSACTION VERIFIED
                             </div>
@@ -131,36 +130,36 @@ function SuccessContent() {
                 <div className="lg:col-span-3 animate-in slide-in-from-right duration-700 delay-300">
                     <div 
                         ref={printRef}
-                        className="relative bg-white border-[12px] border-double border-primary/30 p-8 md:p-12 text-center rounded-sm shadow-2xl print:border-primary print:shadow-none"
+                        className="relative bg-white border-[6px] md:border-[12px] border-double border-primary/30 p-6 md:p-12 text-center rounded-sm shadow-2xl print:border-primary print:shadow-none mx-auto overflow-hidden"
                     >
-                        <div className="absolute top-4 left-4 border-t-2 border-l-2 border-primary w-8 h-8 opacity-40" />
-                        <div className="absolute top-4 right-4 border-t-2 border-r-2 border-primary w-8 h-8 opacity-40" />
-                        <div className="absolute bottom-4 left-4 border-b-2 border-l-2 border-primary w-8 h-8 opacity-40" />
-                        <div className="absolute bottom-4 right-4 border-b-2 border-r-2 border-primary w-8 h-8 opacity-40" />
+                        <div className="absolute top-2 left-2 md:top-4 md:left-4 border-t-2 border-l-2 border-primary w-4 md:w-8 h-4 md:h-8 opacity-40" />
+                        <div className="absolute top-2 right-2 md:top-4 md:right-4 border-t-2 border-r-2 border-primary w-4 md:w-8 h-4 md:h-8 opacity-40" />
+                        <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 border-b-2 border-l-2 border-primary w-4 md:w-8 h-4 md:h-8 opacity-40" />
+                        <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 border-b-2 border-r-2 border-primary w-4 md:w-8 h-4 md:h-8 opacity-40" />
 
                         <div className="flex flex-col items-center">
-                            <Award className="h-20 w-20 text-accent mb-6 animate-pulse" />
-                            <h2 className="text-xs font-bold uppercase tracking-[0.4em] text-muted-foreground mb-4">Anointed Foundation Certificate</h2>
-                            <h3 className="text-4xl font-serif font-black text-primary mb-8 italic">Star Supporter</h3>
+                            <Award className="h-12 w-12 md:h-20 md:w-20 text-accent mb-4 md:mb-6 animate-pulse" />
+                            <h2 className="text-[8px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] text-muted-foreground mb-2 md:mb-4">Anointed Foundation Certificate</h2>
+                            <h3 className="text-2xl md:text-4xl font-serif font-black text-primary mb-4 md:mb-8 italic">Star Supporter</h3>
                             
-                            <p className="text-lg text-foreground/80 leading-relaxed max-w-md mx-auto mb-10">
+                            <div className="text-sm md:text-lg text-foreground/80 leading-relaxed max-w-sm mx-auto mb-6 md:mb-10 px-2">
                                 This is to officially recognize and thank <br />
-                                <span className="text-2xl font-bold text-foreground block my-4 underline decoration-accent/30 underline-offset-8">
+                                <span className="text-xl md:text-2xl font-bold text-foreground block my-2 md:my-4 underline decoration-accent/30 underline-offset-4 md:underline-offset-8 truncate">
                                     {name}
                                 </span>
-                                for their generous contribution of <span className="font-bold text-primary">{currency} {parseFloat(amount).toLocaleString()}</span> towards the <span className="font-bold italic text-primary">{program}</span>.
-                            </p>
+                                for their contribution of <span className="font-bold text-primary">{currency} {parseFloat(amount).toLocaleString()}</span> towards the <span className="font-bold italic text-primary">{program}</span>.
+                            </div>
 
-                            <div className="grid grid-cols-2 gap-12 w-full max-w-sm mt-8 border-t border-muted pt-8">
-                                <div className="space-y-2">
-                                    <div className="h-px bg-muted-foreground/30 w-full mb-4" />
-                                    <p className="text-[10px] font-bold uppercase tracking-widest">Date Issued</p>
-                                    <p className="text-sm font-serif">{currentDate}</p>
+                            <div className="grid grid-cols-2 gap-4 md:gap-12 w-full max-w-sm mt-4 md:mt-8 border-t border-muted pt-4 md:pt-8">
+                                <div className="space-y-1">
+                                    <div className="h-px bg-muted-foreground/30 w-full mb-2" />
+                                    <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest">Date Issued</p>
+                                    <p className="text-xs md:text-sm font-serif">{currentDate}</p>
                                 </div>
-                                <div className="space-y-2">
-                                    <div className="h-px bg-muted-foreground/30 w-full mb-4" />
-                                    <p className="text-[10px] font-bold uppercase tracking-widest">Director Signature</p>
-                                    <p className="text-sm font-serif italic font-bold">Dr. Stella Placid</p>
+                                <div className="space-y-1">
+                                    <div className="h-px bg-muted-foreground/30 w-full mb-2" />
+                                    <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest">Director Signature</p>
+                                    <p className="text-xs md:text-sm font-serif italic font-bold">Dr. Stella Placid</p>
                                 </div>
                             </div>
                         </div>
@@ -169,8 +168,8 @@ function SuccessContent() {
                             <Image 
                                 src="/anointed-star-hub-logo.jpg.jpeg" 
                                 alt="Logo Watermark" 
-                                width={500} 
-                                height={500} 
+                                width={400} 
+                                height={400} 
                                 className="object-contain"
                             />
                         </div>
@@ -183,7 +182,7 @@ function SuccessContent() {
 
 export default function DonationSuccessPage() {
     return (
-        <SectionWrapper className="bg-secondary/20 min-h-screen">
+        <SectionWrapper className="bg-secondary/20 min-h-screen py-12">
             <Suspense fallback={
                 <div className="flex justify-center items-center py-40">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />

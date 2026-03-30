@@ -1,15 +1,13 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Sparkles, Star } from 'lucide-react';
-import SectionWrapper from '@/components/shared/SectionWrapper';
+import { Star } from 'lucide-react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-[#0A0F1C] overflow-hidden">
-      {/* Left Panel: Branding (Hidden on mobile) */}
+      {/* Left Panel: Branding (Hidden on mobile and tablets below lg) */}
       <motion.div 
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -93,14 +91,24 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </motion.div>
 
       {/* Right Panel: Content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 relative">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-12 relative overflow-y-auto">
         {/* Mobile Background Elements */}
         <div className="lg:hidden absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-[80px]" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10" />
         </div>
 
-        <div className="w-full max-w-md relative z-10">
+        <div className="w-full max-w-md relative z-10 py-8">
+          <div className="lg:hidden flex justify-center mb-8">
+             <Image
+                src="/favicon.ico"
+                alt="Logo"
+                width={60}
+                height={60}
+                className="glow-pulse"
+              />
+          </div>
           {children}
         </div>
       </div>
