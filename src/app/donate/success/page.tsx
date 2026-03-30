@@ -1,56 +1,63 @@
-
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import SectionWrapper from '@/components/shared/SectionWrapper';
-import PageTitle from '@/components/shared/PageTitle';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { 
     CheckCircle2, 
-    Download, 
     Printer, 
-    Star, 
-    Heart, 
-    ArrowRight, 
-    LayoutDashboard,
-    Award,
-    Sparkles,
-    ShieldCheck,
-    Calendar,
-    Hash
+    Award, 
+    Sparkles, 
+    ShieldCheck, 
+    Calendar, 
+    Hash,
+    ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 
 function SuccessContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const printRef = useRef<HTMLDivElement>(null);
+    const [mounted, setMounted] = useState(false);
+    const [transactionId, setTransactionId] = useState('');
 
     const amount = searchParams.get('amount') || '0';
     const currency = searchParams.get('currency') || 'USD';
     const program = searchParams.get('program')?.replace(/-/g, ' ') || 'General Fund';
     const name = searchParams.get('name') || 'Valued Supporter';
-    const transactionId = searchParams.get('id') || 'TXN-' + Math.random().toString(36).substring(7).toUpperCase();
     const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     useEffect(() => {
+        setMounted(true);
+        const existingId = searchParams.get('id');
+        if (existingId) {
+            setTransactionId(existingId);
+        } else {
+            // Generate ID only on client to avoid hydration mismatch
+            setTransactionId('TXN-' + Math.random().toString(36).substring(7).toUpperCase());
+        }
+
         if (!amount || amount === '0') {
             router.push('/donate');
         }
-    }, [amount, router]);
+    }, [amount, router, searchParams]);
 
     const handlePrint = () => {
-        window.print();
+        if (typeof window !== 'undefined') {
+            window.print();
+        }
     };
+
+    if (!mounted) return null;
 
     return (
         <div className="max-w-4xl mx-auto space-y-12">
-            {/* Celebration Header */}
             <div className="text-center animate-in fade-in zoom-in duration-700">
                 <div className="inline-flex items-center justify-center p-4 bg-green-100 rounded-full mb-6">
                     <CheckCircle2 className="h-16 w-16 text-green-600 animate-bounce" />
@@ -65,8 +72,6 @@ function SuccessContent() {
             </div>
 
             <div className="grid lg:grid-cols-5 gap-8 items-start">
-                
-                {/* Summary & Receipt Section */}
                 <div className="lg:col-span-2 space-y-6 animate-in slide-in-from-left duration-700 delay-200">
                     <Card className="shadow-xl border-primary/20 bg-card overflow-hidden">
                         <div className="bg-primary h-2" />
@@ -112,9 +117,6 @@ function SuccessContent() {
                             <Button onClick={handlePrint} className="w-full bg-accent hover:bg-accent/90" size="lg">
                                 <Printer className="mr-2 h-4 w-4" /> Download Receipt PDF
                             </Button>
-                            <p className="text-[10px] text-center text-muted-foreground italic">
-                                A copy of this receipt has also been saved to your dashboard.
-                            </p>
                         </CardFooter>
                     </Card>
 
@@ -125,13 +127,11 @@ function SuccessContent() {
                     </Button>
                 </div>
 
-                {/* Creative Certificate Section */}
                 <div className="lg:col-span-3 animate-in slide-in-from-right duration-700 delay-300">
                     <div 
                         ref={printRef}
                         className="relative bg-white border-[12px] border-double border-primary/30 p-8 md:p-12 text-center rounded-sm shadow-2xl print:border-primary print:shadow-none"
                     >
-                        {/* Decorative Corners */}
                         <div className="absolute top-4 left-4 border-t-2 border-l-2 border-primary w-8 h-8 opacity-40" />
                         <div className="absolute top-4 right-4 border-t-2 border-r-2 border-primary w-8 h-8 opacity-40" />
                         <div className="absolute bottom-4 left-4 border-b-2 border-l-2 border-primary w-8 h-8 opacity-40" />
@@ -164,7 +164,6 @@ function SuccessContent() {
                             </div>
                         </div>
 
-                        {/* Background Watermark Icon */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
                             <Image 
                                 src="/anointed-star-hub-logo.jpg.jpeg" 
@@ -177,26 +176,6 @@ function SuccessContent() {
                     </div>
                 </div>
             </div>
-
-            {/* Print Only Styles */}
-            <style jsx global>{`
-                @media print {
-                    header, footer, button, .no-print {
-                        display: none !important;
-                    }
-                    body {
-                        background: white !important;
-                        padding: 0 !important;
-                    }
-                    .print-visible {
-                        display: block !important;
-                    }
-                    main {
-                        margin: 0 !important;
-                        padding: 0 !important;
-                    }
-                }
-            `}</style>
         </div>
     );
 }

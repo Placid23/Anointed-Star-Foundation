@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Phone, MapPinIcon, Send, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
 import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
@@ -169,7 +169,7 @@ export default function ContactPage() {
                 </a>
               </div>
               <div className="flex items-start">
-                <MapPinIcon className="h-5 w-5 text-accent mr-3 mt-1 flex-shrink-0" />
+                <MapPin className="h-5 w-5 text-accent mr-3 mt-1 flex-shrink-0" />
                 <p className="text-foreground/90">
                   123 Charity Lane, Hope City, HC 54321
                   <br />

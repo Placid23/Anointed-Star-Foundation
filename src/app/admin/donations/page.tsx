@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Loader2, DollarSign, BarChart3, ChevronLeft, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
 import { 
   BarChart, 
   Bar, 
@@ -24,6 +25,7 @@ import {
 export default function AdminDonationsPage() {
   const { user } = useAuth();
   const db = useFirestore();
+  const [mounted, setMounted] = useState(false);
   
   const donationQuery = useMemoFirebase(() => {
     return query(collection(db, 'donations'), orderBy('date', 'desc'));
@@ -31,14 +33,21 @@ export default function AdminDonationsPage() {
   
   const { data: donations, loading } = useCollection(donationQuery);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   if (user?.role !== 'admin') return null;
+  if (!mounted) return null;
 
   const totalRaised = donations?.reduce((acc: number, d: any) => acc + (d.amount || 0), 0) || 0;
 
   // Prepare chart data (group by date)
   const chartData = donations ? Object.values(donations.reduce((acc: any, d: any) => {
-    // Standardize date to local string for grouping
+    if (!d.date) return acc;
     const dateObj = new Date(d.date);
+    if (isNaN(dateObj.getTime())) return acc;
+
     const dateKey = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     
     if (!acc[dateKey]) {
@@ -51,8 +60,8 @@ export default function AdminDonationsPage() {
     acc[dateKey].amount += d.amount;
     return acc;
   }, {}) as Record<string, any>)
-    .sort((a: any, b: any) => a.timestamp - b.timestamp) // Sort chronologically
-    .slice(-7) // Show last 7 days of activity
+    .sort((a: any, b: any) => a.timestamp - b.timestamp)
+    .slice(-7)
   : [];
 
   return (
@@ -187,7 +196,7 @@ export default function AdminDonationsPage() {
                         </span>
                       </TableCell>
                       <TableCell className="text-[11px] text-muted-foreground">
-                        {new Date(donation.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                        {donation.date ? new Date(donation.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A'}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="inline-flex items-center gap-1 text-[10px] font-black text-green-600 bg-green-50 px-2 py-0.5 rounded border border-green-100">
