@@ -1,19 +1,24 @@
 {
-  "name": "Anointed Star Foundation",
-  "short_name": "AnointedStar",
-  "description": "Empowering communities and creating brighter futures. Join Anointed Star Foundation in making a difference.",
+  "name": "Anointed Star Hub",
+  "short_name": "Star Hub",
+  "description": "Empowering communities and illuminating happiness through sustainable development.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAF9F0",
-  "theme_color": "#FFC107",
+  "background_color": "#0A0F1C",
+  "theme_color": "#F5A623",
   "icons": [
     {
-      "src": "/anointed-star-hub-logo.jpg",
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/anointed-star-hub-logo.jpg.jpeg",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "/anointed-star-hub-logo.jpg",
+      "src": "/anointed-star-hub-logo.jpg.jpeg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }

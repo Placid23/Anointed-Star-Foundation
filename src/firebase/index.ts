@@ -1,22 +1,26 @@
 'use client';
 
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
+import { getFirestore, Firestore } from 'firebase/firestore';
+import { getAuth, Auth } from 'firebase/auth';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { firebaseConfig } from './config';
 
 export function initializeFirebase() {
-  // Safety check: If essential config is missing, return a minimal set of services 
-  // or handle gracefully to prevent deployment crashes.
   const isConfigValid = !!firebaseConfig.apiKey && !!firebaseConfig.projectId;
 
   if (!isConfigValid) {
     if (typeof window !== 'undefined') {
-      console.error('Firebase configuration is incomplete. Please check your environment variables.');
+      console.warn('Firebase configuration is incomplete. Check environment variables.');
     }
-    // Return null or handle as needed - here we let initializeApp throw if it must, 
-    // but we've warned the dev clearly.
+    // Return a dummy initialization to prevent the whole app from crashing
+    // while providing clear feedback in the console.
+    return {
+      app: null as unknown as FirebaseApp,
+      firestore: null as unknown as Firestore,
+      auth: null as unknown as Auth,
+      storage: null as unknown as FirebaseStorage,
+    };
   }
 
   const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);

@@ -9,10 +9,16 @@ export function FirebaseClientProvider({ children }: { children: ReactNode }) {
   const [services, setServices] = useState<ReturnType<typeof initializeFirebase> | null>(null);
 
   useEffect(() => {
-    setServices(initializeFirebase());
+    // Ensure initialization only happens once on the client
+    const initializedServices = initializeFirebase();
+    setServices(initializedServices);
   }, []);
 
-  if (!services) return null;
+  // Prevent rendering if Firebase isn't initialized OR if we are on the server
+  // This is key to fixing hydration and "Application Error" crashes.
+  if (!services || !services.app) {
+    return <div className="min-h-screen bg-[#0A0F1C]" />;
+  }
 
   return (
     <FirebaseProvider

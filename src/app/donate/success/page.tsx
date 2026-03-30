@@ -14,11 +14,11 @@ import {
     ShieldCheck, 
     Calendar, 
     Hash,
-    ArrowRight
+    ArrowRight,
+    Loader2
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react';
 
 function SuccessContent() {
     const searchParams = useSearchParams();
@@ -26,22 +26,19 @@ function SuccessContent() {
     const printRef = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [transactionId, setTransactionId] = useState('');
+    const [currentDate, setCurrentDate] = useState('');
 
     const amount = searchParams.get('amount') || '0';
     const currency = searchParams.get('currency') || 'USD';
     const program = searchParams.get('program')?.replace(/-/g, ' ') || 'General Fund';
     const name = searchParams.get('name') || 'Valued Supporter';
-    const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     useEffect(() => {
         setMounted(true);
+        // Move dynamic values into useEffect to prevent hydration mismatch
         const existingId = searchParams.get('id');
-        if (existingId) {
-            setTransactionId(existingId);
-        } else {
-            // Generate ID only on client to avoid hydration mismatch
-            setTransactionId('TXN-' + Math.random().toString(36).substring(7).toUpperCase());
-        }
+        setTransactionId(existingId || 'TXN-' + Math.random().toString(36).substring(7).toUpperCase());
+        setCurrentDate(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
 
         if (!amount || amount === '0') {
             router.push('/donate');
@@ -54,7 +51,11 @@ function SuccessContent() {
         }
     };
 
-    if (!mounted) return null;
+    if (!mounted) return (
+        <div className="flex justify-center items-center py-40">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        </div>
+    );
 
     return (
         <div className="max-w-4xl mx-auto space-y-12">
@@ -92,7 +93,7 @@ function SuccessContent() {
                                 <span className="text-muted-foreground flex items-center gap-2">
                                     <Calendar className="h-3 w-3" /> Date
                                 </span>
-                                <span className="font-semibold">{date}</span>
+                                <span className="font-semibold">{currentDate}</span>
                             </div>
                             <Separator />
                             <div className="flex justify-between items-start py-2">
@@ -154,7 +155,7 @@ function SuccessContent() {
                                 <div className="space-y-2">
                                     <div className="h-px bg-muted-foreground/30 w-full mb-4" />
                                     <p className="text-[10px] font-bold uppercase tracking-widest">Date Issued</p>
-                                    <p className="text-sm font-serif">{date}</p>
+                                    <p className="text-sm font-serif">{currentDate}</p>
                                 </div>
                                 <div className="space-y-2">
                                     <div className="h-px bg-muted-foreground/30 w-full mb-4" />

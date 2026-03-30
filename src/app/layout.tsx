@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AppClientLayout from '@/components/layout/AppClientLayout';
@@ -15,12 +15,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Anointed Foundation',
+  title: 'Anointed Star Hub',
   description: 'Empowering communities and creating brighter futures. Join Anointed Foundation in making a difference.',
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Anointed Star Hub',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: '/favicon.ico',
+    apple: '/anointed-star-hub-logo.jpg.jpeg',
   }
+};
+
+export const viewport: Viewport = {
+  themeColor: '#F5A623',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
