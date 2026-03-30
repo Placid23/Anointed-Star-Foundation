@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, type ReactNode } from 'react';
@@ -17,10 +16,11 @@ export default function AppClientLayout({
   children: ReactNode;
 }>) {
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    // Increased duration for a more premium feel
+    setMounted(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2200); 
@@ -28,31 +28,38 @@ export default function AppClientLayout({
     return () => clearTimeout(timer); 
   }, []); 
 
+  // Critical: Prevent rendering children until mounted to avoid hydration errors
+  if (!mounted) {
+    return <div className="min-h-screen bg-[#0A0F1C]" />;
+  }
+
   return (
-    <>
+    <AuthProvider>
       <Preloader visible={isLoading} />
-      <AuthProvider>
-        <div className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-700 ease-in-out flex flex-col min-h-screen bg-background'}>
-          <Header />
-          <main className="flex-grow">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={pathname}
-                initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="page-transition-wrapper"
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
-          </main>
-          <Footer />
-          <Toaster />
-          <CookieConsent />
-        </div>
-      </AuthProvider>
-    </>
+      <div className={`flex flex-col min-h-screen bg-background transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        {!isLoading && (
+          <>
+            <Header />
+            <main className="flex-grow">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={pathname}
+                  initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="page-transition-wrapper"
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
+            </main>
+            <Footer />
+            <Toaster />
+            <CookieConsent />
+          </>
+        )}
+      </div>
+    </AuthProvider>
   );
 }

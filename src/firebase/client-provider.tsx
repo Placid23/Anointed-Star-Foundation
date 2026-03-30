@@ -9,14 +9,14 @@ export function FirebaseClientProvider({ children }: { children: ReactNode }) {
   const [services, setServices] = useState<ReturnType<typeof initializeFirebase> | null>(null);
 
   useEffect(() => {
-    // Ensure initialization only happens once on the client
+    // Initialize services on mount
     const initializedServices = initializeFirebase();
     setServices(initializedServices);
   }, []);
 
-  // Prevent rendering if Firebase isn't initialized OR if we are on the server
-  // This is key to fixing hydration and "Application Error" crashes.
-  if (!services || !services.app) {
+  // Always render something to prevent blank screen during hydration
+  // We use a mounting state pattern to avoid hydration mismatch
+  if (!services) {
     return <div className="min-h-screen bg-[#0A0F1C]" />;
   }
 

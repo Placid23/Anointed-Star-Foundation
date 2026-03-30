@@ -11,24 +11,35 @@ export function initializeFirebase() {
 
   if (!isConfigValid) {
     if (typeof window !== 'undefined') {
-      console.warn('Firebase configuration is incomplete. Check environment variables.');
+      console.warn('Firebase configuration is incomplete. The app will render but database features will be disabled. Please set your Environment Variables in Vercel.');
     }
-    // Return a dummy initialization to prevent the whole app from crashing
-    // while providing clear feedback in the console.
+    // Return safe dummy objects to prevent provider crashes
     return {
-      app: null as unknown as FirebaseApp,
-      firestore: null as unknown as Firestore,
-      auth: null as unknown as Auth,
-      storage: null as unknown as FirebaseStorage,
+      app: {} as FirebaseApp,
+      firestore: {} as Firestore,
+      auth: {} as Auth,
+      storage: {} as FirebaseStorage,
+      isConfigured: false
     };
   }
 
-  const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
+  try {
+    const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+    const firestore = getFirestore(app);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
 
-  return { app, firestore, auth, storage };
+    return { app, firestore, auth, storage, isConfigured: true };
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    return {
+      app: {} as FirebaseApp,
+      firestore: {} as Firestore,
+      auth: {} as Auth,
+      storage: {} as FirebaseStorage,
+      isConfigured: false
+    };
+  }
 }
 
 export * from './provider';
