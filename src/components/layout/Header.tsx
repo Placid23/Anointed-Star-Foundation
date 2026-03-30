@@ -2,7 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, UserCircle, LayoutDashboard, LogOut, Info, Home, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { 
+  Menu, 
+  X, 
+  UserCircle, 
+  LayoutDashboard, 
+  LogOut, 
+  Info, 
+  Home, 
+  ShieldCheck, 
+  HeartHandshake 
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import NavLink from './NavLink';
@@ -29,7 +39,7 @@ const coreNavItems = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -38,6 +48,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu on navigation
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
@@ -69,7 +80,7 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-2">
             <div className="flex items-center glass px-4 py-1.5 rounded-full border-white/5 mr-4">
               {coreNavItems.map((item) => (
-                <NavLink key={item.href} href={item.href} className="text-[10px] uppercase tracking-widest font-bold px-4 hover:text-accent transition-colors relative bg-transparent hover:bg-transparent">
+                <NavLink key={item.href} href={item.href} className="text-[10px] uppercase tracking-widest font-bold px-4 hover:text-accent transition-colors relative bg-transparent hover:bg-transparent border-none">
                   {item.label}
                   {pathname === item.href && (
                     <motion.div layoutId="activeNav" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent rounded-full" />
@@ -86,7 +97,7 @@ export default function Header() {
                       <UserCircle className="h-5 w-5 text-white" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 glass border-white/10 text-white">
+                  <DropdownMenuContent align="end" className="w-56 glass border-white/10 text-white shadow-2xl backdrop-blur-xl">
                     <DropdownMenuLabel className="font-bold">{user.fullName}</DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-white/5" />
                     {user.role === 'admin' && (
@@ -102,7 +113,7 @@ export default function Header() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator className="bg-white/5" />
-                    <DropdownMenuItem onClick={logout} className="text-destructive cursor-pointer">
+                    <DropdownMenuItem onClick={() => logout()} className="text-destructive cursor-pointer">
                       <LogOut className="h-4 w-4 mr-2" /> Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -157,14 +168,14 @@ export default function Header() {
                     <p className="text-sm text-white font-medium mb-4">{user.fullName}</p>
                   </div>
                   {user.role === 'admin' && (
-                    <Link href="/admin" className="text-accent font-black text-lg flex items-center gap-2">
+                    <Link href="/admin" className="text-accent font-black text-lg flex items-center gap-2 mb-2">
                       <ShieldCheck className="h-5 w-5" /> Admin Control
                     </Link>
                   )}
-                  <Link href="/dashboard" className="text-white/80 flex items-center gap-2">
+                  <Link href="/dashboard" className="text-white/80 flex items-center gap-2 mb-2">
                     <LayoutDashboard className="h-5 w-5" /> Dashboard
                   </Link>
-                  <button onClick={logout} className="text-destructive text-left flex items-center gap-2">
+                  <button onClick={() => logout()} className="text-destructive text-left flex items-center gap-2 mt-2">
                     <LogOut className="h-5 w-5" /> Logout
                   </button>
                 </>

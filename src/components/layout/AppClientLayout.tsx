@@ -10,11 +10,6 @@ import CookieConsent from '@/components/shared/CookieConsent';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
-/**
- * @fileOverview AppClientLayout handles the core client-side wrapper logic.
- * It manages the initial application preloader, ensures hydration stability,
- * and handles page-to-page transitions using Framer Motion.
- */
 export default function AppClientLayout({
   children,
 }: Readonly<{
@@ -25,19 +20,17 @@ export default function AppClientLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    // Flag that the component has mounted on the client
     setMounted(true);
     
-    // Register Service Worker for PWA after load to ensure smooth initial paint
+    // Register Service Worker for PWA
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.location.hostname !== 'localhost') {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch((err) => {
-          console.warn('Service Worker registration skipped or failed:', err);
+          console.warn('Service Worker registration skipped:', err);
         });
       });
     }
 
-    // Minimum delay for the premium preloader experience
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2200); 
@@ -45,23 +38,15 @@ export default function AppClientLayout({
     return () => clearTimeout(timer); 
   }, []); 
 
-  // Critical: Prevent hydration mismatch errors by matching initial server-side HTML.
-  // We return a themed placeholder div that matches the background color (#0A0F1C).
+  // Prevent hydration mismatch
   if (!mounted) {
     return <div className="min-h-screen bg-[#0A0F1C]" />;
   }
 
   return (
     <AuthProvider>
-      {/* The Preloader handles its own entry/exit animations via its internal visible prop */}
       <Preloader visible={isLoading} />
       
-      {/* 
-        The main app wrapper. We keep it in the DOM but use Framer Motion 
-        to fade it in once the splash screen is finished. initial={false} on the
-        inner AnimatePresence ensures the first page doesn't "double animate" 
-        during the initial app fade-in.
-      */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: isLoading ? 0 : 1 }}
