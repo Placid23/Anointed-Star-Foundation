@@ -23,10 +23,12 @@ export default function AppClientLayout({
     setMounted(true);
     
     // Register Service Worker for PWA
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch((err) => {
-          console.warn('Service Worker registration failed:', err);
+        navigator.serviceWorker.register('/sw.js').then((registration) => {
+          console.log('SW registered:', registration);
+        }).catch((err) => {
+          console.warn('SW registration failed:', err);
         });
       });
     }
