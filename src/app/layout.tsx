@@ -10,33 +10,46 @@ const geistSans = Geist({
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+  variable: '--font-geist_mono',
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: 'Anointed Star Hub | Empowering Communities',
-  description: 'Anointed Foundation is dedicated to empowering individuals and fostering sustainable community development. Join us in illuminating potential.',
+  title: {
+    default: 'Anointed Star Hub | Empowering Communities',
+    template: '%s | Anointed Star Hub',
+  },
+  description: 'Anointed Foundation is dedicated to empowering individuals and fostering sustainable community development. Join us in illuminating potential and promoting happiness.',
+  keywords: ['Anointed Foundation', 'Star Hub', 'Community Development', 'Charity', 'Empowerment', 'Education', 'Health Initiative'],
+  authors: [{ name: 'Anointed Foundation' }],
+  creator: 'Anointed Foundation',
   manifest: '/manifest.json',
   metadataBase: new URL('https://anointed-foundation.vercel.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Anointed Star Hub',
-    description: 'Empowering communities and creating brighter futures.',
-    url: '/',
-    siteName: 'Anointed Foundation',
+    title: 'Anointed Star Hub | Empowering Communities',
+    description: 'Join Anointed Foundation in our mission to illuminate potential and foster sustainable community growth.',
+    url: 'https://anointed-foundation.vercel.app',
+    siteName: 'Anointed Star Hub',
     images: [
       {
         url: '/anointed-star-hub-logo.jpg.jpeg',
-        width: 800,
-        height: 600,
-        alt: 'Anointed Foundation Logo',
+        width: 1200,
+        height: 630,
+        alt: 'Anointed Foundation - Illuminating Happiness',
       },
     ],
     locale: 'en_US',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Anointed Star Hub | Empowering Communities',
+    description: 'Empowering individuals and fostering sustainable community development.',
+    images: ['/anointed-star-hub-logo.jpg.jpeg'],
+    creator: '@anointedfound',
   },
   appleWebApp: {
     capable: true,
@@ -48,15 +61,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/anointed-star-hub-logo.jpg.jpeg',
-  }
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: '#0A0F1C',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
   viewportFit: 'cover',
 };
 
