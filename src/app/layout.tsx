@@ -15,12 +15,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Anointed Star Hub',
-  description: 'Empowering communities and creating brighter futures. Join Anointed Foundation in making a difference.',
+  title: 'Anointed Star Hub | Empowering Communities',
+  description: 'Anointed Foundation is dedicated to empowering individuals and fostering sustainable community development. Join us in illuminating potential.',
   manifest: '/manifest.json',
+  metadataBase: new URL('https://anointed-foundation.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Anointed Star Hub',
+    description: 'Empowering communities and creating brighter futures.',
+    url: '/',
+    siteName: 'Anointed Foundation',
+    images: [
+      {
+        url: '/anointed-star-hub-logo.jpg.jpeg',
+        width: 800,
+        height: 600,
+        alt: 'Anointed Foundation Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Anointed Star Hub',
   },
   formatDetection: {
@@ -33,10 +53,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#F5A623',
+  themeColor: '#0A0F1C',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({

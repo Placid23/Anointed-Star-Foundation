@@ -21,6 +21,16 @@ export default function AppClientLayout({
 
   useEffect(() => {
     setMounted(true);
+    
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('Service Worker registration failed:', err);
+        });
+      });
+    }
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2200); 
@@ -36,11 +46,14 @@ export default function AppClientLayout({
   return (
     <AuthProvider>
       <Preloader visible={isLoading} />
-      <div className={`flex flex-col min-h-screen bg-background transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <div 
+        className={`flex flex-col min-h-screen bg-background transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        aria-hidden={isLoading}
+      >
         {!isLoading && (
           <>
             <Header />
-            <main className="flex-grow">
+            <main className="flex-grow pt-16 lg:pt-20">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={pathname}
