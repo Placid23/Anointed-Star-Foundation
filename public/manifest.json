@@ -1,0 +1,21 @@
+{
+  "name": "Anointed Star Foundation",
+  "short_name": "AnointedStar",
+  "description": "Empowering communities and creating brighter futures. Join Anointed Star Foundation in making a difference.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F0",
+  "theme_color": "#FFC107",
+  "icons": [
+    {
+      "src": "/anointed-star-hub-logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/anointed-star-hub-logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

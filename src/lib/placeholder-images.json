@@ -1,0 +1,98 @@
+{
+  "about": {
+    "teamCollaboration": {
+      "src": "https://picsum.photos/seed/about-team/600/400",
+      "alt": "Foundation team working together",
+      "hint": "team collaboration"
+    },
+    "leadership": [
+      {
+        "id": "1",
+        "src": "https://picsum.photos/seed/leader-1/300/300",
+        "hint": "professional portrait woman"
+      },
+      {
+        "id": "2",
+        "src": "https://picsum.photos/seed/leader-2/300/300",
+        "hint": "professional portrait man"
+      },
+      {
+        "id": "3",
+        "src": "https://picsum.photos/seed/leader-3/300/300",
+        "hint": "professional portrait woman smiling"
+      },
+      {
+        "id": "4",
+        "src": "https://picsum.photos/seed/leader-4/300/300",
+        "hint": "professional portrait man suit"
+      }
+    ]
+  },
+  "programs": [
+    {
+      "id": "1",
+      "src": "https://picsum.photos/seed/program-1/600/400",
+      "hint": "youth education"
+    },
+    {
+      "id": "2",
+      "src": "https://picsum.photos/seed/program-2/600/400",
+      "hint": "community healthcare"
+    },
+    {
+      "id": "3",
+      "src": "https://picsum.photos/seed/program-3/600/400",
+      "hint": "nature conservation"
+    }
+  ],
+  "media": {
+    "gallery": [
+      {
+        "id": "1",
+        "src": "https://picsum.photos/seed/gallery-1/600/400",
+        "alt": "Community event",
+        "hint": "community event"
+      },
+      {
+        "id": "2",
+        "src": "https://picsum.photos/seed/gallery-2/600/400",
+        "alt": "Volunteers working",
+        "hint": "volunteers working"
+      },
+      {
+        "id": "3",
+        "src": "https://picsum.photos/seed/gallery-3/600/400",
+        "alt": "Happy beneficiary",
+        "hint": "happy beneficiary"
+      },
+      {
+        "id": "4",
+        "src": "https://picsum.photos/seed/gallery-4/600/400",
+        "alt": "Foundation team",
+        "hint": "foundation team"
+      }
+    ]
+  },
+  "news": [
+    {
+      "id": "1",
+      "src": "https://picsum.photos/seed/news-1/600/400",
+      "hint": "charity event"
+    },
+    {
+      "id": "2",
+      "src": "https://picsum.photos/seed/news-2/600/400",
+      "hint": "business partnership"
+    },
+    {
+      "id": "3",
+      "src": "https://picsum.photos/seed/news-3/600/400",
+      "hint": "scholarship award"
+    },
+    {
+      "id": "4",
+      "src": "https://picsum.photos/seed/news-4/600/400",
+      "hint": "environmental workshop"
+    }
+  ]
+}

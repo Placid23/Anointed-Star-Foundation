@@ -1,0 +1,136 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Additional user information linked to Firebase Auth.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "role": { "type": "string", "enum": ["sponsor", "admin", "supporter"] },
+        "email": { "type": "string", "format": "email" }
+      },
+      "required": ["fullName", "role", "email"]
+    },
+    "NewsArticle": {
+      "title": "News Article",
+      "description": "Blog posts and foundation news.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "author": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "date", "author", "content"]
+    },
+    "Program": {
+      "title": "Program",
+      "description": "Foundation programs and initiatives.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        }
+      },
+      "required": ["title", "slug", "shortDescription", "longDescription"]
+    },
+    "Donation": {
+      "title": "Donation",
+      "description": "Record of a successful donation.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "program": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "anonymous": { "type": "boolean" }
+      },
+      "required": ["userId", "amount", "currency", "date"]
+    },
+    "AboutContent": {
+      "title": "About Content",
+      "description": "Content for the About Us page.",
+      "type": "object",
+      "properties": {
+        "heroSubtitle": { "type": "string" },
+        "heroImageUrl": { "type": "string" },
+        "mission": { "type": "string" },
+        "vision": { "type": "string" },
+        "history": { "type": "string" }
+      }
+    },
+    "LeadershipMember": {
+      "title": "Leadership Member",
+      "description": "Member of the foundation leadership team.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "bio": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "role", "bio"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User feedback from the homepage.",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string" },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "userEmail": { "type": "string" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/profiles/{uid}": {
+      "schema": "#/entities/UserProfile",
+      "description": "User profiles stored by their Auth UID."
+    },
+    "/news/{newsId}": {
+      "schema": "#/entities/NewsArticle",
+      "description": "Collection of news articles."
+    },
+    "/programs/{programId}": {
+      "schema": "#/entities/Program",
+      "description": "Collection of foundation programs."
+    },
+    "/donations/{donationId}": {
+      "schema": "#/entities/Donation",
+      "description": "Collection of donation transaction records."
+    },
+    "/about/content": {
+      "schema": "#/entities/AboutContent",
+      "description": "Singleton-like document for About Us page copy."
+    },
+    "/leadership/{memberId}": {
+      "schema": "#/entities/LeadershipMember",
+      "description": "Collection of leadership team members."
+    },
+    "/feedback/{feedbackId}": {
+      "schema": "#/entities/Feedback",
+      "description": "User feedback messages."
+    }
+  }
+}

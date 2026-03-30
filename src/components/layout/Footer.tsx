@@ -1,0 +1,51 @@
+import { Sparkles, Facebook, Twitter, Instagram, Linkedin, Palette } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+
+export default function Footer() {
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
+  return (
+    <footer className="bg-secondary text-secondary-foreground">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <div className="flex justify-center items-center mb-4">
+          <Sparkles className="h-6 w-6 mr-2 text-primary" />
+          <p className="text-lg font-semibold">Anointed Foundation</p>
+        </div>
+        
+        <div className="mb-4 flex justify-center space-x-6">
+          <Link href="#" aria-label="Facebook" className="text-foreground/70 hover:text-primary transition-colors">
+            <Facebook className="h-6 w-6" />
+          </Link>
+          <Link href="#" aria-label="Twitter" className="text-foreground/70 hover:text-primary transition-colors">
+            <Twitter className="h-6 w-6" />
+          </Link>
+          <Link href="#" aria-label="Instagram" className="text-foreground/70 hover:text-primary transition-colors">
+            <Instagram className="h-6 w-6" />
+          </Link>
+          <Link href="#" aria-label="LinkedIn" className="text-foreground/70 hover:text-primary transition-colors">
+            <Linkedin className="h-6 w-6" />
+          </Link>
+        </div>
+
+        <p className="my-4 text-xs text-muted-foreground/80 font-serif tracking-wider flex items-center justify-center space-x-2">
+          <Palette className="h-3.5 w-3.5" />
+          <span>Website crafted by Placid Kingsley</span>
+        </p>
+
+        <p className="text-sm">
+          &copy; {isClient ? currentYear : '...'} Anointed Foundation. All rights reserved.
+        </p>
+        <p className="text-xs mt-2">
+          Making a difference, one star at a time.
+        </p>
+      </div>
+    </footer>
+  );
+}
