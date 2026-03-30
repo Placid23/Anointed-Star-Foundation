@@ -10,6 +10,7 @@ export default function NotFound() {
   return (
     <SectionWrapper className="min-h-[70vh] flex items-center justify-center">
       <div className="text-center space-y-8">
+        {/* Animated 404 Badge */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -22,6 +23,7 @@ export default function NotFound() {
           </h1>
         </motion.div>
 
+        {/* Content Section */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -38,6 +40,7 @@ export default function NotFound() {
           </p>
         </motion.div>
 
+        {/* Action Buttons */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
