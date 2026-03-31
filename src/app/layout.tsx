@@ -1,9 +1,9 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AppClientLayout from '@/components/layout/AppClientLayout';
 import { FirebaseClientProvider } from '@/firebase';
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -84,7 +84,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans flex flex-col min-h-screen bg-background`}>
         <FirebaseClientProvider>
-          <AppClientLayout>{children}</AppClientLayout>
+          <AppClientLayout>
+            {children}
+            <Analytics />
+          </AppClientLayout>
         </FirebaseClientProvider>
       </body>
     </html>
