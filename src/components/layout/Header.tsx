@@ -17,7 +17,8 @@ import {
   HeartHandshake,
   ArrowRight,
   FolderHeart,
-  ChevronRight
+  ChevronRight,
+  Newspaper
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,7 +36,7 @@ import NavLink from './NavLink';
 const coreNavItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/about', label: 'About', icon: Info },
-  { href: '/news', label: 'News', icon: Info },
+  { href: '/news', label: 'News', icon: Newspaper },
   { href: '/programs', label: 'Programs', icon: FolderHeart },
 ];
 
@@ -47,7 +48,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
