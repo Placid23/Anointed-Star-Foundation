@@ -5,10 +5,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Menu, 
-  X, 
   UserCircle, 
   LayoutDashboard, 
   LogOut, 
@@ -32,7 +31,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
-// Inline SVG for HeartHandshake to avoid Lucide HMR issues
+// Inline SVG for HeartHandshake to avoid Lucide HMR module factory errors
 const HeartHandshakeIcon = ({ className }: { className?: string }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -86,7 +85,7 @@ export default function Header() {
                 className="h-6 w-6 md:h-8 md:w-8 object-contain"
               />
             </div>
-            <span className="font-black text-lg md:text-xl tracking-tighter text-white group-hover:text-accent transition-colors truncate">
+            <span className="font-black text-lg md:text-xl tracking-tighter text-white group-hover:text-accent transition-colors truncate uppercase">
               ANOINTED
             </span>
           </Link>

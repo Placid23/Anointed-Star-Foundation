@@ -32,6 +32,13 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
     title: 'Anointed Star Hub',
   },
+  openGraph: {
+    type: 'website',
+    siteName: 'Anointed Star Hub',
+    title: 'Anointed Foundation | Empowering Communities',
+    description: 'Empowering underserved communities through education, health, and economic development.',
+    images: [{ url: '/favicon.ico' }],
+  },
 };
 
 export const viewport: Viewport = {
