@@ -8,7 +8,13 @@
       "properties": {
         "fullName": { "type": "string" },
         "role": { "type": "string", "enum": ["sponsor", "admin", "supporter"] },
-        "email": { "type": "string", "format": "email" }
+        "email": { "type": "string", "format": "email" },
+        "favorites": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "List of program slugs favorited by the user."
+        },
+        "totalContributed": { "type": "number", "default": 0 }
       },
       "required": ["fullName", "role", "email"]
     },

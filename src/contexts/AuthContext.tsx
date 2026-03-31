@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { ReactNode } from 'react';
@@ -15,7 +16,10 @@ import {
 import {
   doc,
   setDoc,
-  onSnapshot
+  onSnapshot,
+  arrayUnion,
+  arrayRemove,
+  updateDoc
 } from 'firebase/firestore';
 import { useAuth as useFirebaseAuth, useFirestore } from '@/firebase';
 
@@ -26,6 +30,8 @@ interface User {
   email: string;
   fullName: string;
   role: UserRole;
+  favorites?: string[];
+  totalContributed?: number;
 }
 
 interface AuthContextType {
@@ -36,6 +42,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateRole: (newRole: UserRole) => Promise<void>;
+  toggleFavorite: (programSlug: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let unsubscribeProfile: (() => void) | undefined;
 
     const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
-      // Clear previous profile listener if it exists
       if (unsubscribeProfile) unsubscribeProfile();
 
       if (firebaseUser) {
@@ -67,6 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 email: firebaseUser.email!,
                 fullName: profile.fullName || firebaseUser.displayName || 'User',
                 role: (profile.role as UserRole) || 'supporter',
+                favorites: profile.favorites || [],
+                totalContributed: profile.totalContributed || 0,
               });
             } else {
               setUser({
@@ -74,6 +82,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 email: firebaseUser.email!,
                 fullName: firebaseUser.displayName || 'User',
                 role: 'supporter',
+                favorites: [],
+                totalContributed: 0,
               });
             }
             setLoading(false);
@@ -109,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       toast({ 
         title: 'Authentication Error', 
-        description: 'We couldn\'t find an account with those credentials. Please try again.', 
+        description: 'Check your credentials and try again.', 
         variant: 'destructive' 
       });
     } finally {
@@ -129,45 +139,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         fullName,
         role,
         email,
+        favorites: [],
+        totalContributed: 0,
         createdAt: new Date().toISOString()
       });
 
       await signOut(auth);
       setUser(null);
 
-      toast({ 
-        title: 'Account Created Successfully!', 
-        description: `Welcome, ${fullName}! Please log in to your new account.` 
-      });
-      
+      toast({ title: 'Account Created!', description: `Welcome! Please log in to continue.` });
       router.push('/auth/login');
     } catch (error: any) {
-      toast({ 
-        title: 'Registration Failed', 
-        description: error.message || 'An error occurred during signup. Please try again.', 
-        variant: 'destructive' 
-      });
+      toast({ title: 'Registration Failed', description: error.message, variant: 'destructive' });
     } finally {
       setLoading(false);
     }
   };
 
   const logout = async () => {
-    // Do not set global loading to true to keep UI interactive during transition
     try {
       await signOut(auth);
       setUser(null);
-      toast({ 
-        title: 'Signed Out', 
-        description: 'You have been safely logged out.' 
-      });
+      toast({ title: 'Signed Out' });
       router.push('/auth/login');
     } catch (error: any) {
-      toast({ 
-        title: 'Logout Error', 
-        description: 'An unexpected error occurred while signing out.', 
-        variant: 'destructive' 
-      });
+      toast({ title: 'Logout Error', variant: 'destructive' });
     }
   };
 
@@ -175,17 +171,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
-      toast({ 
-        title: 'Instructions Sent!', 
-        description: `A password reset link has been sent to ${email}. Please check your inbox and spam folder.` 
-      });
+      toast({ title: 'Instructions Sent!', description: `Reset link sent to ${email}.` });
       router.push('/auth/login');
     } catch (error: any) {
-      toast({ 
-        title: 'Reset Request Failed', 
-        description: error.message || 'We could not send a reset link to this email. Please ensure it is correct.', 
-        variant: 'destructive' 
-      });
+      toast({ title: 'Reset Failed', description: error.message, variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -194,17 +183,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateRole = async (newRole: UserRole) => {
     if (!user) return;
     try {
-      await setDoc(doc(db, 'profiles', user.id), {
-        role: newRole
-      }, { merge: true });
-      toast({ title: 'Role Updated', description: `Your account is now set to ${newRole}.` });
+      await updateDoc(doc(db, 'profiles', user.id), { role: newRole });
+      toast({ title: 'Role Updated', description: `Account set to ${newRole}.` });
     } catch (error: any) {
-      toast({ title: 'Update Failed', description: error.message, variant: 'destructive' });
+      toast({ title: 'Update Failed', variant: 'destructive' });
+    }
+  };
+
+  const toggleFavorite = async (programSlug: string) => {
+    if (!user) {
+      toast({ title: 'Sign In Required', description: 'Log in to save programs to your profile.', variant: 'destructive' });
+      return;
+    }
+
+    const isFavorite = user.favorites?.includes(programSlug);
+    const profileRef = doc(db, 'profiles', user.id);
+
+    try {
+      await updateDoc(profileRef, {
+        favorites: isFavorite ? arrayRemove(programSlug) : arrayUnion(programSlug)
+      });
+      toast({ 
+        title: isFavorite ? 'Removed from Favorites' : 'Saved to Favorites',
+        description: isFavorite ? 'initiative removed.' : 'You can find this in your dashboard.'
+      });
+    } catch (e: any) {
+      console.error(e);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, resetPassword, updateRole }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, resetPassword, updateRole, toggleFavorite }}>
       {children}
     </AuthContext.Provider>
   );
@@ -212,8 +221,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 }

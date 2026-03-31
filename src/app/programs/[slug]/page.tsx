@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
@@ -8,18 +9,18 @@ import PageTitle from '@/components/shared/PageTitle';
 import SectionWrapper from '@/components/shared/SectionWrapper';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, MapPin, Loader2, Heart, ArrowLeft, MoveLeft } from 'lucide-react';
+import { MapPin, Loader2, Heart, MoveLeft, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function ProgramDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const db = useFirestore();
+  const { user, toggleFavorite } = useAuth();
   const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // Memoize the query to prevent infinite render loops
   const programsQuery = useMemoFirebase(() => {
     return query(collection(db, 'programs'), where('slug', '==', slug), limit(1));
   }, [db, slug]);
@@ -30,12 +31,16 @@ export default function ProgramDetailPage() {
     if (!collectionLoading) {
       if (data && data.length > 0) {
         setProgram(data[0]);
+        // Track recently viewed in local storage
+        const history = JSON.parse(localStorage.getItem('recent_programs') || '[]');
+        const updatedHistory = [slug, ...history.filter((s: string) => s !== slug)].slice(0, 5);
+        localStorage.setItem('recent_programs', JSON.stringify(updatedHistory));
       } else {
         setProgram(null);
       }
       setLoading(false);
     }
-  }, [data, collectionLoading]);
+  }, [data, collectionLoading, slug]);
 
   if (loading) {
     return (
@@ -45,60 +50,72 @@ export default function ProgramDetailPage() {
     );
   }
 
-  if (!program) {
-    notFound();
-  }
+  if (!program) notFound();
+
+  const isFavorited = user?.favorites?.includes(slug);
 
   return (
     <SectionWrapper>
-      <div className="max-w-6xl mx-auto mb-8">
+      <div className="max-w-6xl mx-auto mb-8 flex flex-wrap items-center justify-between gap-4">
         <Button asChild variant="ghost" className="group text-muted-foreground hover:text-primary -ml-4">
           <Link href="/programs">
             <MoveLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1.5" />
             Back to Programs
           </Link>
         </Button>
+        
+        <Button 
+          variant={isFavorited ? "secondary" : "outline"} 
+          className={`rounded-full gap-2 ${isFavorited ? 'border-accent text-accent' : ''}`}
+          onClick={() => toggleFavorite(slug)}
+        >
+          <Star className={`h-4 w-4 ${isFavorited ? 'fill-accent' : ''}`} />
+          {isFavorited ? 'Saved to Favorites' : 'Save to Profile'}
+        </Button>
       </div>
 
       <PageTitle title={program.title} />
       
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12 mb-12">
-        <div className="relative aspect-square md:aspect-auto md:h-[400px] overflow-hidden rounded-lg shadow-xl">
+        <div className="relative aspect-square md:aspect-auto md:h-[400px] overflow-hidden rounded-[2rem] shadow-2xl border border-white/5">
           <Image
             src={program.imageUrl || 'https://picsum.photos/seed/placeholder-program/800/600'}
             alt={program.title}
             fill
             className="object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-40" />
         </div>
-        <div className="prose prose-lg max-w-none text-foreground/90 leading-relaxed">
-          <h2 className="text-2xl font-semibold text-primary mb-3">Program Overview</h2>
-          <p>{program.longDescription}</p>
+        <div className="prose prose-invert prose-lg max-w-none">
+          <h2 className="text-2xl font-bold text-accent mb-4">The Vision</h2>
+          <p className="text-white/80 leading-relaxed">{program.longDescription}</p>
+          
           {program.location?.name && (
-            <div className="mt-6 p-4 border border-border rounded-lg bg-secondary/30">
-              <h3 className="text-lg font-semibold text-primary flex items-center mb-2">
-                <MapPin className="mr-2 h-5 w-5" /> Program Location
+            <div className="mt-8 p-6 glass rounded-2xl border-white/5">
+              <h3 className="text-lg font-black text-white flex items-center mb-2 uppercase tracking-widest text-[10px]">
+                <MapPin className="mr-2 h-4 w-4 text-accent" /> Program Hub
               </h3>
-              <p className="text-foreground/80">{program.location.name}</p>
+              <p className="text-white/60 font-medium">{program.location.name}</p>
             </div>
           )}
         </div>
       </div>
 
-      <div className="text-center bg-primary/10 p-10 rounded-2xl mb-12 border-2 border-dashed border-primary/30">
-        <Heart className="h-12 w-12 text-primary mx-auto mb-4 animate-pulse" />
-        <h3 className="text-2xl font-bold text-primary mb-4">Would you like to support {program.title}?</h3>
-        <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-          Your donation goes directly towards funding the specific goals and activities of this initiative. Every contribution counts.
+      <div className="text-center glass p-8 md:p-16 rounded-[3rem] mb-12 border-white/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-12 opacity-5">
+           <Heart className="h-64 w-64 text-accent" />
+        </div>
+        <Heart className="h-16 w-16 text-accent mx-auto mb-6 animate-pulse" />
+        <h3 className="text-3xl font-black text-white mb-4">Support {program.title}</h3>
+        <p className="text-white/60 mb-10 max-w-2xl mx-auto text-lg">
+          Your contribution specifically funds the equipment, education, and personnel needed to keep this initiative moving forward.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-md hover:shadow-lg transition-all">
-            <Link href={`/donate?program=${program.slug}`}>Donate to this Program</Link>
+        <div className="flex flex-col sm:flex-row justify-center gap-6">
+          <Button asChild size="lg" className="h-14 px-10 gradient-gold text-accent-foreground font-black rounded-full shadow-xl hover:scale-105 transition-transform">
+            <Link href={`/donate?program=${program.slug}`}>Invest in this Mission</Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="group">
-            <Link href="/programs">
-              Explore More Programs
-            </Link>
+          <Button asChild variant="outline" size="lg" className="h-14 px-10 glass border-white/20 text-white rounded-full">
+            <Link href="/programs">Explore More initiatives</Link>
           </Button>
         </div>
       </div>

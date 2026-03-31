@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: '/anointed-star-hub-logo.jpg.jpeg',
+    apple: '/favicon.ico',
   },
 };
 
