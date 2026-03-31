@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -20,50 +21,16 @@ export const metadata: Metadata = {
     default: 'Anointed Star Hub | Empowering Communities',
     template: '%s | Anointed Star Hub',
   },
-  description: 'Anointed Foundation is dedicated to empowering individuals and fostering sustainable community development. Join us in illuminating potential and promoting happiness.',
-  keywords: ['Anointed Foundation', 'Star Hub', 'Community Development', 'Charity', 'Empowerment', 'Education', 'Health Initiative'],
-  authors: [{ name: 'Anointed Foundation' }],
-  creator: 'Anointed Foundation',
+  description: 'Anointed Foundation is dedicated to empowering individuals and fostering sustainable community development.',
   manifest: '/manifest.json',
-  metadataBase: new URL('https://anointed-foundation.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Anointed Star Hub | Empowering Communities',
-    description: 'Join Anointed Foundation in our mission to illuminate potential and foster sustainable community growth.',
-    url: 'https://anointed-foundation.vercel.app',
-    siteName: 'Anointed Star Hub',
-    images: [
-      {
-        url: '/favicon.ico',
-        width: 512,
-        height: 512,
-        alt: 'Anointed Foundation - Illuminating Happiness',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Anointed Star Hub | Empowering Communities',
-    description: 'Empowering individuals and fostering sustainable community development.',
-    images: ['/favicon.ico'],
-    creator: '@anointedfound',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'Anointed Star Hub',
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
   },
 };
 

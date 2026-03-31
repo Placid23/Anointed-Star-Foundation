@@ -1,4 +1,4 @@
-// Simple Service Worker for PWA support
+
 const CACHE_NAME = 'anointed-star-hub-v1';
 const ASSETS_TO_CACHE = [
   '/',

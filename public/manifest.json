@@ -1,7 +1,8 @@
+
 {
   "name": "Anointed Star Hub",
   "short_name": "Star Hub",
-  "description": "Empowering communities and illuminating potential through sustainable development.",
+  "description": "Empowering communities and fostering sustainable development.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A0F1C",
@@ -14,9 +15,14 @@
     },
     {
       "src": "/favicon.ico",
-      "sizes": "512x512",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }
