@@ -1,7 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
   X, 
@@ -14,13 +17,9 @@ import {
   HeartHandshake,
   ArrowRight,
   FolderHeart,
-  Sparkles,
   ChevronRight
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import NavLink from './NavLink';
-import { useAuth } from '@/contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,9 +28,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePathname } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import NavLink from './NavLink';
 
 const coreNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -52,12 +51,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on navigation
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -73,7 +70,6 @@ export default function Header() {
     )}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          {/* Logo Section */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="p-1 md:p-1.5 rounded-lg md:rounded-xl bg-accent/10 border border-accent/20 transition-all group-hover:scale-110">
               <Image
@@ -89,7 +85,6 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center space-x-2">
             <div className="flex items-center glass px-4 py-1.5 rounded-full border-white/5 mr-4">
               {coreNavItems.map((item) => (
@@ -149,7 +144,6 @@ export default function Header() {
             </div>
           </nav>
           
-          {/* Mobile Toggle */}
           <div className="flex items-center gap-3 lg:hidden">
             <Button asChild size="sm" className="gradient-gold text-accent-foreground font-black rounded-full text-[10px] h-8 px-4">
               <Link href="/donate">Donate</Link>
@@ -165,11 +159,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Right-to-Left Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -178,7 +170,6 @@ export default function Header() {
               className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] lg:hidden"
             />
             
-            {/* Drawer */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -186,7 +177,6 @@ export default function Header() {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm glass z-[120] lg:hidden flex flex-col shadow-2xl border-l border-white/10"
             >
-              {/* Drawer Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/5">
                 <Link href="/" className="flex items-center gap-2">
                   <Image src="/favicon.ico" alt="Logo" width={24} height={24} />
@@ -200,9 +190,7 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Drawer Scrollable Area */}
               <div className="flex-1 overflow-y-auto p-6 space-y-8">
-                {/* Navigation Links */}
                 <div className="space-y-2">
                   <p className="text-[10px] font-black text-accent uppercase tracking-[0.2em] mb-4">Explore Mission</p>
                   {coreNavItems.map((item) => (
@@ -223,7 +211,6 @@ export default function Header() {
                   ))}
                 </div>
 
-                {/* Account Section */}
                 <div className="space-y-4">
                   <p className="text-[10px] font-black text-accent uppercase tracking-[0.2em]">Star Hub Access</p>
                   {user ? (
@@ -261,7 +248,6 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* Drawer Footer CTA */}
               <div className="p-6 bg-white/[0.02] border-t border-white/5">
                 <Button asChild className="w-full h-14 gradient-gold text-accent-foreground font-black rounded-2xl shadow-xl">
                   <Link href="/donate" className="flex items-center justify-between px-6">

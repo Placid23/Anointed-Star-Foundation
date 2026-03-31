@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/contexts/AuthContext';
 import Preloader from '@/components/shared/Preloader';
 import CookieConsent from '@/components/shared/CookieConsent';
-import { motion, AnimatePresence } from 'framer-motion';
-import { usePathname } from 'next/navigation';
 
 export default function AppClientLayout({
   children,
@@ -38,7 +38,6 @@ export default function AppClientLayout({
     return () => clearTimeout(timer); 
   }, []); 
 
-  // Prevent hydration mismatch
   if (!mounted) {
     return <div className="min-h-screen bg-[#0A0F1C]" />;
   }
