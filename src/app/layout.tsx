@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     siteName: 'Anointed Star Hub',
     images: [
       {
-        url: '/anointed-star-hub-logo.jpg.jpeg',
-        width: 1200,
-        height: 630,
+        url: '/favicon.ico',
+        width: 512,
+        height: 512,
         alt: 'Anointed Foundation - Illuminating Happiness',
       },
     ],
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Anointed Star Hub | Empowering Communities',
     description: 'Empowering individuals and fostering sustainable community development.',
-    images: ['/anointed-star-hub-logo.jpg.jpeg'],
+    images: ['/favicon.ico'],
     creator: '@anointedfound',
   },
   appleWebApp: {
